@@ -2,11 +2,13 @@
   <article class="flex basket__product">
     <div class="flex basket__product-description">
       <figure class="basket__img-box">
-        <img
-          :src="product.images[0]"
-          :alt="product.title"
-          class="basket__img"
-        />
+        <a href="#">
+          <img
+            :src="product.images[0]"
+            :alt="product.title"
+            class="basket__img"
+          />
+        </a>
       </figure>
       <div>
         <h3 class="basket__product-headding">{{ product.title }}</h3>
@@ -17,7 +19,7 @@
           Size: Сделать выбор размера
         </p>
       </div>
-      <div class="basket__product-del">
+      <div @click="deleteProduct(product.id)" class="basket__product-del">
         <svg
           class="basket__product-del-svg"
           xmlns="http://www.w3.org/2000/svg"
@@ -33,23 +35,22 @@
         <p class="basket__product-del-text">Удалить</p>
       </div>
     </div>
-    <div>
+    <div class="basket__product-btns">
       <div class="flex">
+        <button
+          @click="multyQuantity"
+          class="basket__product-multy"
+          :class="myltyActiveClass"
+        >
+          X10
+        </button>
         <button
           @click="decreseQuantity(product.price)"
           class="basket__product-minus"
         >
           −
         </button>
-        <input
-          type="number"
-          class="basket__product-quantity"
-          v-model="quantity"
-          name="quantity"
-          min="1"
-          max="100"
-          @input="changeQuantity(product.price)"
-        />
+        <p class="basket__product-quantity">{{ quantity }}</p>
         <button
           @click="increseQuantity(product.price)"
           class="basket__product-plus"
@@ -57,7 +58,6 @@
           +
         </button>
       </div>
-      <p class="basket__product-amount">{{ product.price }} $</p>
     </div>
     <p class="basket__price">{{ total }} $</p>
   </article>
@@ -72,6 +72,7 @@ export default {
     return {
       empty: false,
       quantity: 1,
+      multy: 1,
       productCategory: [
         "tops",
         "womens-dresses",
@@ -85,26 +86,35 @@ export default {
     this.$emit("sentTotal", this.total);
   },
   methods: {
+    deleteProduct(id) {
+      this.$emit("deleteProduct", id);
+      this.$emit("sentTotal", -this.total);
+    },
     increseQuantity(price) {
-      this.quantity !== 100 ? this.$emit("sentTotal", price) : false;
-      this.quantity <= 100 ? this.quantity++ : false;
+      if (this.quantity >= 90 && this.multy === 10) this.multy = 1;
+      if (this.quantity >= 100) return;
+      this.quantity <= 100 ? (this.quantity += this.multy) : false;
+      this.quantity <= 100
+        ? this.$emit("sentTotal", price * this.multy)
+        : false;
     },
     decreseQuantity(price) {
-      this.quantity !== 1 ? this.$emit("sentTotal", -price) : false;
-      this.quantity > 1 ? this.quantity-- : false;
+      if (this.quantity <= 10 && this.multy === 10) this.multy = 1;
+      if (this.quantity === 1) return;
+      this.quantity > 1 ? (this.quantity -= this.multy) : false;
+      this.quantity > 0 ? this.$emit("sentTotal", -price * this.multy) : false;
     },
-    changeQuantity(price) {
-      this.quantity > 0 && this.quantity !== 100
-        ? this.$emit("sentTotal", event.target.value * price)
-        : (this.quantity = 0);
-      // this.quantity <= 100
-      //   ? this.$emit("sentTotal", event.target.value * price)
-      //   : (this.quantity = 100);
+    multyQuantity() {
+      this.multy === 1 ? (this.multy = 10) : (this.multy = 1);
     },
   },
   computed: {
     total() {
       return this.quantity * this.product.price;
+    },
+    myltyActiveClass() {
+      if (this.multy === 10) return "basket__product-multy-active";
+      else return "";
     },
   },
 };
@@ -120,6 +130,8 @@ export default {
   }
   &__product-description {
     align-items: center;
+    justify-content: flex-start;
+    width: 40%;
   }
   &__img-box {
     width: 90px;
@@ -160,9 +172,16 @@ export default {
     padding-left: 35px;
     padding-right: 8px;
   }
-  &__product-amount {
-    text-align: center;
-    padding-top: 10px;
+  &__product-multy {
+    padding: 9px 8px;
+    color: #126d73;
+    box-sizing: border-box;
+    border: 1px solid #e4e4e4;
+    background-color: #fff;
+    margin-right: 25px;
+  }
+  &__product-multy-active {
+    background-color: #12d0a7;
   }
   &__product-minus,
   &__product-plus {
@@ -176,7 +195,7 @@ export default {
     cursor: pointer;
   }
   &__product-quantity {
-    width: 100%;
+    width: 35px;
     outline: none;
     border: 1px solid #e4e4e4;
     background-color: #fff;

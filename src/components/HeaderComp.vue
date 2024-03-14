@@ -1,6 +1,6 @@
 <template>
   <div class="header-bottom-wrap" :class="marginBottom">
-    <div class="header-top-wrap">
+    <div class="header-top-wrap" :class="marginTop">
       <div class="wrap">
         <div class="header-top flex">
           <a class="header__logo-link" href="#">
@@ -56,36 +56,35 @@
               </a>
             </li>
           </ul>
-          <div class="flex">
+          <router-link to="/authentification" class="flex">
             <p>
               <a href="#" class="header-top__text oxygen-regular"
                 >личный кабинет</a
               >
             </p>
-            <a href="#">
-              <svg
-                class="header-top__icon header-top__user"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-                width="23"
-                height="23"
-              >
-                <path
-                  d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"
-                />
-              </svg>
-            </a>
-          </div>
+            <svg
+              class="header-top__icon header-top__user"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+              width="23"
+              height="23"
+            >
+              <path
+                d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"
+              />
+            </svg>
+          </router-link>
         </div>
       </div>
     </div>
     <div class="wrap">
       <div class="header-bottom flex-end">
         <nav class="header-bottom__nav">
-          <a
+          <!-- <router-link to="/">Main</router-link> -->
+          <router-link
             v-for="(navItem, index) in navCategory"
             :key="index"
-            :href="navItem.link"
+            :to="navItem.path"
             class="header-bottom__item"
             ><span class="header-bottom__span oxygen-regular">{{
               navItem.name
@@ -101,7 +100,7 @@
                 </li>
               </ul>
             </div>
-          </a>
+          </router-link>
         </nav>
         <svg
           @:click="openmenu"
@@ -115,7 +114,7 @@
             d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
           />
         </svg>
-        <a href="#">
+        <router-link to="/basket">
           <svg
             class="header-bottom__svg-basket"
             fill="white"
@@ -128,7 +127,7 @@
               d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
             />
           </svg>
-        </a>
+        </router-link>
       </div>
     </div>
   </div>
@@ -169,9 +168,10 @@ export default {
         gitIcon: require("@/assets/img/git.svg"),
         vkIcon: require("@/assets/img/vk.svg"),
       },
-
+      isVisiableHeaderTop: true,
       menushow: false,
       marginBottom: "",
+      marginTop: "",
       mainphoto: [
         "https://img.freepik.com/free-photo/fluffy-kitten-sitting-in-grass-staring-at-sunset-playful-generated-by-artificial-intelligence_25030-67836.jpg?size=626&ext=jpg&ga=GA1.1.1751935624.1697546507&semt=ais",
         "https://img.freepik.com/free-photo/cute-domestic-cat-staring-at-the-camera-generative-ai_188544-12496.jpg?size=626&ext=jpg&ga=GA1.1.1751935624.1697546507&semt=ais",
@@ -206,6 +206,11 @@ export default {
       ],
     };
   },
+  mounted() {
+    // Cannot read properties of null (reading 'classList')
+    // TypeError: Cannot read properties of null (reading 'classList')
+    window.addEventListener("scroll", this.scrollPage);
+  },
   methods: {
     openmenu() {
       this.menushow = !this.menushow;
@@ -217,8 +222,14 @@ export default {
       this.menushow = false;
     },
     scrollPage() {
-      console.log("scroll");
+      // if (window.scrollY >= 56) this.$refs.headerTop.style.marginTop = `-44px`
+      // if (window.scrollY === 0) this.$refs.headerTop.style.marginTop = "0px"
+      if (window.scrollY >= 56) this.marginTop = "margin-top";
+      if (window.scrollY === 0) this.marginTop = "";
     },
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.scrollPage);
   },
 };
 </script>
@@ -226,6 +237,10 @@ export default {
 <style lang="scss" scoped>
 .margin-bottom {
   margin-bottom: -250px;
+}
+.margin-top {
+  margin-top: -44px;
+  transition: margin 0.2s;
 }
 .wrap {
   position: relative;

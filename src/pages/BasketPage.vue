@@ -3,8 +3,8 @@
     <div class="wrap">
       <div v-if="empty" class="basket__empty">
         <p class="oxygen-regular basket__empty-txt">Ваша корзина пуста</p>
-        <a href="#" class="oxygen-regular basket__empty-txt"
-          >Перейти на главную страницу</a
+        <p @click="$router.push(`/`)" class="oxygen-regular basket__empty-txt"
+          >Перейти на главную страницу</p
         >
       </div>
       <div class="basket" v-else>
@@ -12,10 +12,11 @@
         <div class="basket__product-box">
           <div class="basket__product-wrap">
             <CartProduct
-              v-for="product in products"
+              v-for="(product, index) in products"
               :key="product.id"
               :product="product"
               @sentTotal="calcTotal"
+              @deleteProduct="deleteProductFromCart(index, product.id)"
             />
             <p class="basket__product-price">Итого: {{ totalPrice }} $</p>
           </div>
@@ -41,6 +42,17 @@
           </svg>
           Вернуться назад</a
         >
+        <div v-if="userName" class="basket__pay">
+          <a href="#"><GreenButton>Оплатить</GreenButton></a>
+        </div>
+        <div v-else class="basket__pay">
+          <p class="oxygen-regular basket__pay-text">
+            Войдите в личный кабинет, чтобы оформить заказ
+          </p>
+          <router-link to="/authentification">
+            <GreenButton>Войти</GreenButton>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -48,17 +60,19 @@
 
 <script>
 import CartProduct from "@/components/CartProduct.vue";
+import GreenButton from "@/components/GreenButton.vue";
+import { mapMutations, mapState } from "vuex";
 
 export default {
+  name: 'BasketPage',
   components: {
     CartProduct,
-  },
-  props: {
-    products: Array,
+    GreenButton,
   },
   data() {
     return {
-      empty: false,
+      empty: this.$store.state.inBasketProducts.length === 0,
+      products: [],
       quantity: 1,
       totalPrice: 0,
       productCategory: [
@@ -70,10 +84,43 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.changeProducts();
+  },
   methods: {
+    ...mapMutations({
+      delProductInBasket: "delProductInBasket",
+    }),
+    async getSingleProduct(id) {
+      try {
+        const response = await fetch(`${this.url}/products/${id}`);
+        const result = await response.json();
+        // console.log(result);
+        this.products.push(result);
+      } catch (e) {
+        console.log(e.message);
+      }
+    },
+    changeProducts() {
+      for (const id of this.basketList) {
+        this.getSingleProduct(id);
+      }
+    },
+    deleteProductFromCart(indexd, id) {
+      this.products.splice(indexd, 1);
+      this.delProductInBasket(id);
+      this.products.length === 0 ? (this.empty = true) : false;
+    },
     calcTotal(value) {
       this.totalPrice += value;
     },
+  },
+  computed: {
+    ...mapState({
+      url: (state) => state.serverUrl,
+      basketList: (state) => state.inBasketProducts,
+      userName: (state) => state.login,
+    }),
   },
 };
 </script>
@@ -89,6 +136,7 @@ export default {
 
   &-txt:last-child {
     color: #12d0a7;
+    cursor: pointer;
   }
 }
 .basket {
@@ -123,6 +171,13 @@ export default {
     transform: rotate(180deg);
     vertical-align: middle;
     padding-top: 1px;
+  }
+  &__pay {
+    padding-top: 32px;
+    text-align: center;
+  }
+  &__pay-text {
+    padding-bottom: 32px;
   }
 }
 </style>

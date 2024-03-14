@@ -5,7 +5,7 @@
         <div class="product__images flex">
           <div class="product__pagination">
             <figure
-              v-for="(imgsrc, index) in product.images"
+              v-for="(imgsrc, index) in product?.images"
               :key="index"
               :product="product"
               class="product__pagination-item"
@@ -25,7 +25,7 @@
           </figure>
         </div>
         <div class="product__info">
-          <h2 class="product__title cabin-700">{{ product.title }}</h2>
+          <h2 class="product__title cabin-700">{{ product?.title }}</h2>
           <p
             v-if="product.stock"
             class="oxygen-regular product__text product__amount"
@@ -35,7 +35,7 @@
           <p v-else class="oxygen-regular product__text product__ended">
             Товар закончился
           </p>
-          <p class="cabin-500 product__text">Цена: {{ product.price }} $</p>
+          <p class="cabin-500 product__text">Цена: {{ product?.price }} $</p>
           <p class="oxygen-regular product__text">
             {{ product.description }}
           </p>
@@ -92,11 +92,9 @@
 
 <script>
 import SelectComp from "@/components/SelectComp.vue";
+import { mapState } from "vuex";
 
 export default {
-  props: {
-    product: Object,
-  },
   components: {
     SelectComp,
   },
@@ -126,6 +124,12 @@ export default {
     selectSize(value) {
       this.size = value;
     },
+  },
+  computed: {
+    ...mapState({
+      url: (state) => state.serverUrl,
+      product: (state) => state.product,
+    }),
   },
 };
 </script>

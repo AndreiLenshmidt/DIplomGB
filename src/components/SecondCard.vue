@@ -11,7 +11,7 @@
     <h3 class="articles__card-headding" v-html="article.title"></h3>
     <div class="articles__icons-box">
       <svg
-        @click="addInCart"
+        @click="likeToggle(article.id)"
         class="articles__like"
         :class="likeActive"
         version="1.0"
@@ -45,8 +45,8 @@
         </g>
       </svg>
       <svg
-      @click="addInBasket"
-      :class="basketActive"
+        @click="basketToggle(article.id)"
+        :class="basketActive"
         class="articles__basket"
         xmlns="http://www.w3.org/2000/svg"
         height="70"
@@ -61,7 +61,7 @@
     <div class="articles__btn-box">
       <p class="articles__data">26 December,2022</p>
       <ArrowBtn
-        btnlink="#"
+        @click="linkedInSingleProduct(article.id)"
         btnclass="articles__btn"
         btnwidth="10"
         btnheight="20"
@@ -72,6 +72,7 @@
 
 <script>
 import ArrowBtn from "./ArrowBtn.vue";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
   props: {
@@ -81,25 +82,58 @@ export default {
   components: { ArrowBtn },
   data() {
     return {
-      inCart: false,
+      inLiked: false,
       inBasket: false,
       likeActive: "",
       basketActive: "",
     };
   },
   methods: {
-    addInCart() {
-      this.inCart = !this.inCart;
-      this.inCart === true
+    ...mapMutations({
+      addProductInBasket: "addProductInBasket",
+      addProductInLiked: "addProductInLiked",
+      delProductInBasket: "delProductInBasket",
+      delProductInLiked: "delProductInLiked",
+      // changeSingleProduct: "changeSingleProduct",
+    }),
+    ...mapActions({
+      getSingleProduct: "getSingleProduct",
+    }),
+    likeToggle(id) {
+      this.inLiked = !this.inLiked;
+      this.inLiked === true
         ? (this.likeActive = "articles__like-active")
         : (this.likeActive = "");
+      this.inLiked ? this.addProductInLiked(id) : this.delProductInLiked(id);
     },
-    addInBasket() {
+    basketToggle(id) {
       this.inBasket = !this.inBasket;
       this.inBasket === true
         ? (this.basketActive = "articles__basket-active")
         : (this.basketActive = "");
+      this.inBasket ? this.addProductInBasket(id) : this.delProductInBasket(id);
+    },
+    linkedInSingleProduct(id) {
+      this.getSingleProduct(id);
+      this.$router.push(`/product/${id}`);
+    },
+  },
+  created() {
+    if (this.inBasketList.includes(this.article.id)) {
+      this.inBasket = true;
+      this.basketActive = "articles__basket-active";
     }
+    if (this.inLikedList.includes(this.article.id)) {
+      this.inLiked = true;
+      this.likeActive = "articles__like-active";
+    }
+  },
+  computed: {
+    ...mapState({
+      // url: (state) => state.serverUrl,
+      inBasketList: (state) => state.inBasketProducts,
+      inLikedList: (state) => state.inLikedProducts,
+    }),
   },
 };
 </script>

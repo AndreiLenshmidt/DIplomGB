@@ -12,6 +12,30 @@ input[type="number"]::-webkit-inner-spin-button {
   display: none;
 }
 
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  border: 1px solid #e4e4e4;
+  background-color: #f8f8f8;
+  margin: 0 16px 0 0;
+  vertical-align: middle;
+  transition-property: background, border-color;
+  transition-timing-function: linear;
+  transition-duration: 0.1s;
+  transition-delay: 0s;
+  border-radius: 3px;
+}
+input[type="checkbox"]:checked {
+  background: url("@/assets/img/check.svg");
+  background-color: #12d0a7;
+  background-size: 24px;
+  border-color: transparent;
+}
+
 .wrap {
   width: 1200px;
   margin: 0 auto;
@@ -49,6 +73,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
   &-wrap {
     background: rgb(136, 136, 136);
+    transition: margin 0.15s;
   }
 
   &__phone,
@@ -154,23 +179,20 @@ input[type="number"]::-webkit-inner-spin-button {
   box-sizing: border-box;
   opacity: 0.95;
   &__list {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    // display: flex;
+    // justify-content: center;
+    // flex-wrap: wrap;
+    column-count: 4;
   }
   &__subkategory {
-    margin-right: 100px;
     padding-bottom: 10px;
     border-bottom: 5px solid transparent;
     text-transform: uppercase;
     color: #fff;
   }
-  &__subkategory:hover {
+  &__subkategory:hover > a {
     color: #12d0a7;
     border-bottom: 5px solid #12d0a7;
-  }
-  &__subkategory:last-child {
-    padding-right: 0;
   }
 }
 .header-menu {

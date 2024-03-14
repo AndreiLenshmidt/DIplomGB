@@ -31,13 +31,17 @@
   <div class="category-wrap" @click="closeMenu">
     <div class="wrap">
       <section class="category">
-        <a v-for="category in categoryGrid" href="#" class="category__link">
+        <a
+          v-for="category in categoryGrid"
+          @click="clickForCategory(category)"
+          class="category__link"
+        >
           <img
             :src="category.imgsrc"
-            :alt="category.name"
+            :alt="category.name.ru"
             class="category__img"
           />
-          <span class="category__name">{{ category.name }}</span>
+          <span class="category__name">{{ category.name.ru }}</span>
         </a>
       </section>
     </div>
@@ -56,8 +60,11 @@
       <section class="articles">
         <h2 class="cabin-700 articles__title">Новинки</h2>
         <div class="articles__box">
-          <SecondCard v-for="card in newProducts" :key="card.id"
-          :article="card" />
+          <SecondCard
+            v-for="card in newProducts"
+            :key="card.id"
+            :article="card"
+          />
         </div>
         <GreenButton><a href="#">Подробнее</a></GreenButton>
       </section>
@@ -68,8 +75,11 @@
       <section class="articles">
         <h2 class="cabin-700 articles__title">Бестселлеры</h2>
         <div class="articles__box">
-          <SecondCard v-for="card in mostRatedProducts" :key="card.id"
-          :article="card" />
+          <SecondCard
+            v-for="card in mostRatedProducts"
+            :key="card.id"
+            :article="card"
+          />
           <!-- <SecondCard :articles="mostRatedProducts" /> -->
         </div>
         <GreenButton><a href="#">Подробнее</a></GreenButton>
@@ -81,8 +91,11 @@
       <section class="articles">
         <h2 class="cabin-700 articles__title">Рекомендуем</h2>
         <div class="articles__box">
-          <SecondCard v-for="card in recomendProducts" :key="card.id"
-          :article="card" />
+          <SecondCard
+            v-for="card in recomendProducts"
+            :key="card.id"
+            :article="card"
+          />
           <!-- <SecondCard :articles="recomendProducts" /> -->
         </div>
         <GreenButton><a href="#">Подробнее</a></GreenButton>
@@ -94,6 +107,7 @@
 <script>
 import SecondCard from "@/components/SecondCard.vue";
 import GreenButton from "@/components/GreenButton.vue";
+import { mapMutations, mapState, mapActions } from "vuex";
 
 // const getData = async (URL) => {
 //   const response = await fetch(URL);
@@ -105,127 +119,161 @@ import GreenButton from "@/components/GreenButton.vue";
 // getData("https://dummyjson.com/products?limit=10&skip=10");
 
 export default {
+  name: "MainPage",
   components: {
     SecondCard,
     GreenButton,
   },
-  props: {
-    categoryGrid: Array,
-  },
   data() {
     return {
-      mainphoto: [
-        "https://img.freepik.com/free-photo/fluffy-kitten-sitting-in-grass-staring-at-sunset-playful-generated-by-artificial-intelligence_25030-67836.jpg?size=626&ext=jpg&ga=GA1.1.1751935624.1697546507&semt=ais",
-        "https://img.freepik.com/free-photo/cute-domestic-cat-staring-at-the-camera-generative-ai_188544-12496.jpg?size=626&ext=jpg&ga=GA1.1.1751935624.1697546507&semt=ais",
-        "https://img.freepik.com/free-photo/cute-dog-in-snow-furry-and-small-looking-at-camera-generated-by-artificial-intellingence_25030-63068.jpg?w=740&t=st=1708964451~exp=1708965051~hmac=1e09ba3887192cbe2bdc06a4fa957ff005844f9a8eb1459b731d2b4837212818",
-      ],
+      // mainphoto: this.$store.state.mainphoto,
+      // categoryGrid: this.$store.state.categoryGrid,
       maincounter: 0,
-      serverUrl: "https://dummyjson.com/products",
-      limit: 0,
-      skip: 0,
-      categories: [],
-      articles: [],
-      ratings: [],
-      newProducts: [],
-      mostRatedProducts: [],
-      recomendProducts: [],
+      // newProducts: this.$store.state.newProducts,
+      // mostRatedProducts: this.$store.state.mostRatedProducts,
+      // recomendProducts: this.$store.state.recomendProducts,
+      // serverUrl: "https://dummyjson.com/products",
+      // limit: 0,
+      // skip: 0,
+      // // categories: [],
+      // // articles: [],
+      // ratings: [],
+      // // newProducts: [],
+      // // mostRatedProducts: [],
+      // // recomendProducts: [],
     };
   },
-  mounted() {
-    this.getCards(this.skip);
-    this.getCategories();
-    this.getLimit();
-    this.getNews(this.limit);
-    this.getSortedProducts(this.mostRatedProducts, "rating", 3);
-    this.getSortedProducts(this.recomendProducts, "discountPercentage", 3);
+  created() {
+    // Перенес в app.created
+    // this.getNews();
+    // this.getSortedProducts({
+    //   commitName: "addCardsInMostRatedProducts",
+    //   sortParametr: "rating",
+    //   maxVisionCard: 3,
+    // });
+    // this.getSortedProducts({
+    //   commitName: "addCardsInRecomendProducts",
+    //   sortParametr: "discountPercentage",
+    //   maxVisionCard: 3,
+    // });
+    // this.getCards(this.skip);
+    // this.getCategories();
+    // this.getLimit();
+    // this.getNews(this.limit);
+    // this.getSortedProducts(this.mostRatedProducts, "rating", 3);
+    // this.getSortedProducts(this.recomendProducts, "discountPercentage", 3);
     // Смена картинки раз в 3 сек
     // this.changeMainImg();
   },
   methods: {
-    async getCards(skip) {
-      try {
-        const response = await fetch(
-          `https://dummyjson.com/products?limit=${9}&skip=${skip}`
-        );
-        const result = await response.json();
-        this.articles.push(...result.products);
-        // console.log(this.articles);
-      } catch (e) {
-        console.log(e.message);
+    ...mapMutations({
+      delCardsInArticles: "delCardsInArticles",
+    }),
+    ...mapActions({
+      // getNews: "getNews",
+      // getSortedProducts: "getSortedProducts",
+      getProductsForCategory: "getProductsForCategory",
+    }),
+    clickForCategory(category) {
+      this.delCardsInArticles();
+      for (const sub of category.subkategory) {
+        this.getProductsForCategory(sub.en);
       }
+      this.$router.push(`/products/${category.name.ru.toLowerCase()}`);
     },
-    async getCategories() {
-      try {
-        const response = await fetch(
-          "https://dummyjson.com/products/categories"
-        );
-        const result = await response.json();
-        this.categories.push(...result);
-        console.log(this.categories);
-      } catch (e) {
-        console.log(e.message);
-      }
-    },
-    async getLimit() {
-      try {
-        const response = await fetch(
-          `https://dummyjson.com/products?limit=${0}&select=id`
-        );
-        const result = await response.json();
-        this.limit = result.limit;
-        console.log(this.limit);
-      } catch (e) {
-        console.log(e.message);
-      }
-    },
-    async getNews() {
-      try {
-        const response2 = await fetch(
-          `https://dummyjson.com/products?limit=${3}&skip=${96}`
-        );
-        const result = await response2.json();
-        this.newProducts.push(...result.products);
-        console.log(this.newProducts);
-      } catch (e) {
-        console.log(e.message);
-      }
-    },
-    async getSortedProducts(dataArr, sortParametr, maxVisionCard) {
-      try {
-        const response = await fetch(
-          `https://dummyjson.com/products?limit=${0}&select=${sortParametr}`
-        );
-        const result = await response.json();
-        const sorted = result.products.sort(
-          (a, b) => b[sortParametr] - a[sortParametr]
-        );
-        for (let i = 0; i < maxVisionCard; i++) {
-          try {
-            const response = await fetch(
-              `https://dummyjson.com/products/${sorted[i].id}`
-            );
-            const result = await response.json();
-            dataArr.push(result);
-          } catch (e) {
-            console.log(e.message);
-          }
-        }
-        console.log(this.mostRatedProducts);
-        // this.ratings.push(...result.products);
-        // const sorted = result.sort((a,b)=>b.rating - a.rating);
-        console.log(sorted);
-      } catch (e) {
-        console.log(e.message);
-      }
-    },
-    // смена картики раз в 3 сек
-    changeMainImg() {
-      setInterval(() => {
-        this.maincounter < this.mainphoto.length - 1
-          ? this.maincounter++
-          : (this.maincounter = 0);
-      }, 3000);
-    },
+    // async getCards(skip) {
+    //   try {
+    //     const response = await fetch(
+    //       `https://dummyjson.com/products?limit=${9}&skip=${skip}`
+    //     );
+    //     const result = await response.json();
+    //     this.articles.push(...result.products);
+    //     // console.log(this.articles);
+    //   } catch (e) {
+    //     console.log(e.message);
+    //   }
+    // },
+    // async getCategories() {
+    //   try {
+    //     const response = await fetch(
+    //       "https://dummyjson.com/products/categories"
+    //     );
+    //     const result = await response.json();
+    //     this.categories.push(...result);
+    //     console.log(this.categories);
+    //   } catch (e) {
+    //     console.log(e.message);
+    //   }
+    // },
+    // async getLimit() {
+    //   try {
+    //     const response = await fetch(
+    //       `https://dummyjson.com/products?limit=${0}&select=id`
+    //     );
+    //     const result = await response.json();
+    //     this.limit = result.limit;
+    //     console.log(this.limit);
+    //   } catch (e) {
+    //     console.log(e.message);
+    //   }
+    // },
+    // async getNews() {
+    //   try {
+    //     const response2 = await fetch(
+    //       `https://dummyjson.com/products?limit=${3}&skip=${96}`
+    //     );
+    //     const result = await response2.json();
+    //     this.newProducts.push(...result.products);
+    //     console.log(this.newProducts);
+    //   } catch (e) {
+    //     console.log(e.message);
+    //   }
+    // },
+    // async getSortedProducts(dataArr, sortParametr, maxVisionCard) {
+    //   try {
+    //     const response = await fetch(
+    //       `https://dummyjson.com/products?limit=${0}&select=${sortParametr}`
+    //     );
+    //     const result = await response.json();
+    //     const sorted = result.products.sort(
+    //       (a, b) => b[sortParametr] - a[sortParametr]
+    //     );
+    //     for (let i = 0; i < maxVisionCard; i++) {
+    //       try {
+    //         const response = await fetch(
+    //           `https://dummyjson.com/products/${sorted[i].id}`
+    //         );
+    //         const result = await response.json();
+    //         dataArr.push(result);
+    //       } catch (e) {
+    //         console.log(e.message);
+    //       }
+    //     }
+    //     console.log(this.mostRatedProducts);
+    //     // this.ratings.push(...result.products);
+    //     // const sorted = result.sort((a,b)=>b.rating - a.rating);
+    //     console.log(sorted);
+    //   } catch (e) {
+    //     console.log(e.message);
+    //   }
+    // },
+    // // смена картики раз в 3 сек
+    // changeMainImg() {
+    //   setInterval(() => {
+    //     this.maincounter < this.mainphoto.length - 1
+    //       ? this.maincounter++
+    //       : (this.maincounter = 0);
+    //   }, 3000);
+    // },
+  },
+  computed: {
+    ...mapState({
+      mainphoto: (state) => state.mainphoto,
+      categoryGrid: (state) => state.categoryGrid,
+      newProducts: (state) => state.newProducts,
+      mostRatedProducts: (state) => state.mostRatedProducts,
+      recomendProducts: (state) => state.recomendProducts,
+    }),
   },
 };
 </script>
@@ -248,17 +296,33 @@ export default {
 //     opacity: 1;
 //   }
 // }
+// @keyframes imagesFading {
+//   0% {
+//     margin-left: 0;
+//   }
+//   100% {
+//     margin-left: 100%;
+//   }
+// }
 
 .main {
   &__img-box {
-    width: 100%;
-    height: 686px;
+    width: 1200px;
     position: relative;
+    overflow: hidden;
+    padding-top: 50%;
+    background: rgb(234, 234, 234);
   }
   &__img {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
-    // animation: imagesFading 3s infinite;
+    height: 100%;
+    object-fit: cover;
+    // animation: imagesFading 1s;
   }
+
   &__btn {
     padding: 10px;
     opacity: 0.7;
