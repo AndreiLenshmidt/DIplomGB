@@ -2,8 +2,9 @@
   <div class="articles-wrap">
     <div class="wrap">
       <section class="articles">
-        <h2 class="cabin-700 articles__title">{{filter.pageTitle}}</h2>
-        <div class="articles__filter">
+        <h2 class="cabin-700 articles__title">{{ filter.pageTitle }}</h2>
+        <div v-if="category !== 'избранное'"
+        class="articles__filter">
           <div class="catalog__fillter-box flex">
             <details class="catalog__fillters">
               <summary class="catalog__fillter-desc">
@@ -74,10 +75,7 @@
         </div>
       </section>
       <!-- <GreenButton @click="getCards((skip += 18))">Show More</GreenButton> -->
-      <GreenButton
-        @click="getCards({ limit: this.limit, skip: (this.skip += 18) })"
-        >Show More</GreenButton
-      >
+      <GreenButton @click="getNextCards">Show More </GreenButton>
     </div>
   </div>
 </template>
@@ -98,6 +96,8 @@ export default {
       category: this.$route.params.category,
       limit: 18,
       skip: 0,
+      startIndex: 0,
+      endIndex: 18,
       filter: {
         title: "Выбрать Фильтр",
         pageTitle: this.$route.params.category,
@@ -106,16 +106,19 @@ export default {
     };
   },
   mounted() {
-    
+
   },
   methods: {
     ...mapMutations({
+      addCardsInArticles: "addCardsInArticles",
       changeFilters: "changeFilters",
       delCardsInArticles: "delCardsInArticles",
+      addCardInArticles: "addCardInArticles",
     }),
     ...mapActions({
       getCards: "getCards",
       getProductsForCategory: "getProductsForCategory",
+      getSortedProducts: "getSortedProducts",
     }),
     addFilters(checkedNames) {
       this.changeFilters(checkedNames);
@@ -134,6 +137,34 @@ export default {
         this.getProductsForCategory(filter);
       }
     },
+    getNextCards() {
+      const condition = ["новинки", "бестселлеры", "рекомендуем"].indexOf(
+        this.$route.params.category
+      );
+      // console.log(this.$route.params.category);
+      // console.log(condition);
+      if (this.$route.params.category === "все товары") {
+        this.getCards({ limit: this.limit, skip: (this.skip += 18) });
+      } else if (condition >= 0) {
+        this.getSortedProducts({
+          commitName: "addCardInArticles",
+          sortParametr: ["id", "rating", "discountPercentage"][condition],
+          startIndex: (this.startIndex += 18),
+          endIndex: (this.endIndex += 18),
+        });
+      }
+    },
+    // async getInLikedProduct(id) {
+    //   try {
+    //     const response = await fetch(`${this.url}/products/${id}`);
+    //     const result = await response.json();
+    //     result.quantity = quantity;
+    //     // console.log(result);
+    //     this.products.push(result);
+    //   } catch (e) {
+    //     console.log(e.message);
+    //   }
+    // },
     // async getCards(skip) {
     //   try {
     //     const response = await fetch(
@@ -152,6 +183,7 @@ export default {
       articles: (state) => state.articles,
       categories: (state) => state.categoryGrid,
       filters: (state) => state.filters,
+      likedProducts: (state) => state.user.userData.likedProducts,
     }),
   },
 };

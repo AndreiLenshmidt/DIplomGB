@@ -61,12 +61,14 @@
         <h2 class="cabin-700 articles__title">Новинки</h2>
         <div class="articles__box">
           <SecondCard
-            v-for="card in newProducts"
+            v-for="card in newProducts.slice(0, 3)"
             :key="card.id"
             :article="card"
           />
         </div>
-        <GreenButton><a href="#">Подробнее</a></GreenButton>
+        <GreenButton @click="clickForSortedProducts(newProducts, 'Новинки')"
+          >Подробнее</GreenButton
+        >
       </section>
     </div>
   </div>
@@ -76,13 +78,16 @@
         <h2 class="cabin-700 articles__title">Бестселлеры</h2>
         <div class="articles__box">
           <SecondCard
-            v-for="card in mostRatedProducts"
+            v-for="card in mostRatedProducts.slice(0, 3)"
             :key="card.id"
             :article="card"
           />
           <!-- <SecondCard :articles="mostRatedProducts" /> -->
         </div>
-        <GreenButton><a href="#">Подробнее</a></GreenButton>
+        <GreenButton
+          @click="clickForSortedProducts(mostRatedProducts, 'Бестселлеры')"
+          >Подробнее</GreenButton
+        >
       </section>
     </div>
   </div>
@@ -92,13 +97,16 @@
         <h2 class="cabin-700 articles__title">Рекомендуем</h2>
         <div class="articles__box">
           <SecondCard
-            v-for="card in recomendProducts"
+            v-for="card in recomendProducts.slice(0, 3)"
             :key="card.id"
             :article="card"
           />
           <!-- <SecondCard :articles="recomendProducts" /> -->
         </div>
-        <GreenButton><a href="#">Подробнее</a></GreenButton>
+        <GreenButton
+          @click="clickForSortedProducts(recomendProducts, 'Рекомендуем')"
+          >Подробнее</GreenButton
+        >
       </section>
     </div>
   </div>
@@ -167,6 +175,7 @@ export default {
   },
   methods: {
     ...mapMutations({
+      addCardsInArticles: "addCardsInArticles",
       delCardsInArticles: "delCardsInArticles",
     }),
     ...mapActions({
@@ -180,6 +189,11 @@ export default {
         this.getProductsForCategory(sub.en);
       }
       this.$router.push(`/products/${category.name.ru.toLowerCase()}`);
+    },
+    clickForSortedProducts(sortedProducts, title) {
+      this.delCardsInArticles();
+      this.addCardsInArticles(sortedProducts);
+      this.$router.push(`/products/${title.toLowerCase()}`);
     },
     // async getCards(skip) {
     //   try {
@@ -381,31 +395,31 @@ export default {
   &__link:first-child {
     display: flex;
     justify-content: flex-start;
-    align-items: start;
+    align-items: flex-start;
   }
   &__link:nth-child(2) {
     display: flex;
     justify-content: flex-start;
-    align-items: end;
+    align-items: flex-end;
   }
   &__link:nth-child(3) {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
   }
   &__link:nth-child(4) {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
   }
   &__link:nth-child(5) {
     display: flex;
-    justify-content: end;
-    align-items: end;
+    justify-content: flex-end;
+    align-items: flex-end;
   }
   &__link:nth-child(6) {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
   }
 }

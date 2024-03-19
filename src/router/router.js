@@ -3,7 +3,10 @@ import AuthRegistrationPage from "@/pages/AuthRegistrationPage.vue";
 import BasketPage from "@/pages/BasketPage.vue";
 import MainPage from "@/pages/MainPage.vue";
 import ProductPage from "@/pages/ProductPage.vue";
-import { createRouter, createWebHistory } from 'vue-router';
+import AboutUsPage from "@/pages/AboutUsPage.vue";
+import DeliveryPage from "@/pages/DeliveryPage.vue";
+import ContactsPage from "@/pages/ContactsPage.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
@@ -18,10 +21,6 @@ const routes = [
     path: "/product/:id",
     component: ProductPage,
   },
-  // {
-  //   path: "/product",
-  //   component: ProductPage,
-  // },
   {
     path: "/basket",
     component: BasketPage,
@@ -30,12 +29,24 @@ const routes = [
     path: "/authentification",
     component: AuthRegistrationPage,
   },
+  {
+    path: "/about",
+    component: AboutUsPage,
+  },
+  {
+    path: "/delivery",
+    component: DeliveryPage,
+  },
+  {
+    path: "/contacts",
+    component: ContactsPage,
+  },
+
   // {
   //   path: '/:pathMatch(.*)',
   //   component: NotFoundComponent,
   // }
 ];
-
 
 const router = createRouter({
   history: createWebHistory(),
@@ -44,4 +55,3 @@ const router = createRouter({
 
 // app.use(router);
 export default router;
-

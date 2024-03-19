@@ -10,31 +10,29 @@
           />
         </a>
       </figure>
-      <div class="flex basket__del-box">
-        <div>
-          <h3 class="basket__product-headding">{{ product.title }}</h3>
-          <p
-            v-if="productCategory.includes(product.category)"
-            class="basket__product-size"
-          >
-            Size: Сделать выбор размера
-          </p>
-        </div>
-        <div @click="deleteProduct(product.id)" class="basket__product-del">
-          <svg
-            class="basket__product-del-svg"
-            xmlns="http://www.w3.org/2000/svg"
-            height="24"
-            width="28"
-            viewBox="0 0 448 512"
-            fill="#126d73"
-          >
-            <path
-              d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
-            />
-          </svg>
-          <p class="basket__product-del-text">Удалить</p>
-        </div>
+      <div>
+        <h3 class="basket__product-headding">{{ product.title }}</h3>
+        <p
+          v-if="productCategory.includes(product.category)"
+          class="basket__product-size"
+        >
+          Size: Сделать выбор размера
+        </p>
+      </div>
+      <div @click="deleteProduct(product.id)" class="basket__product-del">
+        <svg
+          class="basket__product-del-svg"
+          xmlns="http://www.w3.org/2000/svg"
+          height="24"
+          width="28"
+          viewBox="0 0 448 512"
+          fill="#126d73"
+        >
+          <path
+            d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+          />
+        </svg>
+        <p class="basket__product-del-text">Удалить</p>
       </div>
     </div>
     <div class="basket__product-btns">
@@ -52,7 +50,7 @@
         >
           −
         </button>
-        <p class="basket__product-quantity">{{ quantity }}</p>
+        <p class="basket__product-quantity">{{ productQuantity }}</p>
         <button
           @click="increseQuantity(product.price)"
           class="basket__product-plus"
@@ -66,17 +64,17 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   props: {
-    product: Object,
+    productID: Number,
+    productQuantity: Number,
   },
-  emits: ["deleteProduct", "sentTotal", "changeQuantity"],
   data() {
     return {
-      quantity: 1,
-      stock: 0,
+      empty: false,
+      // quantity: 1,
       multy: 1,
       productCategory: [
         "tops",
@@ -88,8 +86,7 @@ export default {
     };
   },
   created() {
-    this.quantity = this.product.quantity;
-    this.stock = this.product.stock;
+    this.getSingleProduct(this.productID);
   },
   mounted() {
     this.$emit("sentTotal", this.total);
@@ -105,34 +102,27 @@ export default {
     increseQuantity(price) {
       if (this.quantity >= 90 && this.multy === 10) this.multy = 1;
       if (this.quantity >= 100) return;
-      if (this.quantity <= 100) this.quantity += this.multy;
-      if (this.quantity <= 100) {
-        this.$emit("sentTotal", price * this.multy);
-        this.$emit("changeQuantity", {
-          value: this.quantity,
-          id: this.product.id,
-        });
-      }
+      this.quantity <= 100 ? (this.quantity += this.multy) : false;
+      this.quantity <= 100
+        ? this.$emit("sentTotal", price * this.multy)
+        : false;
     },
     decreseQuantity(price) {
-      if (this.quantity <= 10 && this.multy === 10) this.multy = 1;
-      if (this.quantity === 1) return;
-      if (this.quantity > 1) this.quantity -= this.multy;
-      if (this.quantity > 0) {
-        this.$emit("sentTotal", -price * this.multy);
-        this.$emit("changeQuantity", {
-          value: this.quantity,
-          id: this.product.id,
-        });
-      }
+      if (this.productQuantity <= 10 && this.multy === 10) this.multy = 1;
+      if (this.productQuantity === 1) return;
+      this.productQuantity > 1 ? (this.productQuantity -= this.multy) : false;
+      this.productQuantity > 0 ? this.$emit("sentTotal", -price * this.multy) : false;
     },
     multyQuantity() {
       this.multy === 1 ? (this.multy = 10) : (this.multy = 1);
     },
   },
   computed: {
+    ...mapState({
+      product: (state) => state.product,
+    }),
     total() {
-      return this.quantity * this.product.price;
+      return this.productQuantity * this.product.price;
     },
     myltyActiveClass() {
       if (this.multy === 10) return "basket__product-multy-active";
@@ -173,9 +163,6 @@ export default {
     height: 100%;
     object-fit: cover;
   }
-  &__del-box {
-    width: 100%;
-  }
   &__product-headding {
     font-size: 24px;
     color: #12d0a7;
@@ -204,7 +191,6 @@ export default {
     border: 1px solid #e4e4e4;
     background-color: #fff;
     margin-right: 25px;
-    cursor: pointer;
   }
   &__product-multy-active {
     background-color: #12d0a7;

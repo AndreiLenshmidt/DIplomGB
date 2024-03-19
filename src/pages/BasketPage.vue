@@ -3,25 +3,34 @@
     <div class="wrap">
       <div v-if="empty" class="basket__empty">
         <p class="oxygen-regular basket__empty-txt">Ваша корзина пуста</p>
-        <p @click="$router.push(`/`)" class="oxygen-regular basket__empty-txt"
-          >Перейти на главную страницу</p
-        >
+        <p @click="$router.push(`/`)" class="oxygen-regular basket__empty-txt">
+          Перейти на главную страницу
+        </p>
       </div>
       <div class="basket" v-else>
         <h2 class="cabin-700 basket__title">Корзина</h2>
         <div class="basket__product-box">
           <div class="basket__product-wrap">
+            <!-- <CartProduct
+              v-for="(product, index) in basketList"
+              :key="product.id"
+              :productID="product.id"
+              :productQuantity="product.value",
+              @sentTotal="calcTotal"
+              @deleteProduct="deleteProductFromCart(index, product.id)"
+            /> -->
             <CartProduct
               v-for="(product, index) in products"
               :key="product.id"
               :product="product"
               @sentTotal="calcTotal"
               @deleteProduct="deleteProductFromCart(index, product.id)"
+              @changeQuantity="rewriteQuanity"
             />
             <p class="basket__product-price">Итого: {{ totalPrice }} $</p>
           </div>
         </div>
-        <a href="#" class="cabin-500 basket__back-ink">
+        <a @click="goBack" class="cabin-500 basket__back-link">
           <svg
             width="20"
             height="19"
@@ -61,19 +70,17 @@
 <script>
 import CartProduct from "@/components/CartProduct.vue";
 import GreenButton from "@/components/GreenButton.vue";
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapGetters } from "vuex";
 
 export default {
-  name: 'BasketPage',
+  name: "BasketPage",
   components: {
     CartProduct,
     GreenButton,
   },
   data() {
     return {
-      empty: this.$store.state.inBasketProducts.length === 0,
       products: [],
-      quantity: 1,
       totalPrice: 0,
       productCategory: [
         "tops",
@@ -89,12 +96,14 @@ export default {
   },
   methods: {
     ...mapMutations({
-      delProductInBasket: "delProductInBasket",
+      rewriteLocalUserData: "user/rewriteLocalUserData",
+      changeInBasketProductValue: "user/changeInBasketProductValue",
     }),
-    async getSingleProduct(id) {
+    async getInBasketProduct(id, quantity) {
       try {
         const response = await fetch(`${this.url}/products/${id}`);
         const result = await response.json();
+        result.quantity = quantity;
         // console.log(result);
         this.products.push(result);
       } catch (e) {
@@ -102,24 +111,40 @@ export default {
       }
     },
     changeProducts() {
-      for (const id of this.basketList) {
-        this.getSingleProduct(id);
+      for (const item of this.basketList) {
+        this.getInBasketProduct(item.id, item.value);
       }
     },
     deleteProductFromCart(indexd, id) {
       this.products.splice(indexd, 1);
-      this.delProductInBasket(id);
-      this.products.length === 0 ? (this.empty = true) : false;
+      this.rewriteLocalUserData({
+        key: "inBasketProducts",
+        value: this.basketList.filter((item) => item.id !== id),
+      });
     },
     calcTotal(value) {
       this.totalPrice += value;
+    },
+    rewriteQuanity(product) {
+      this.changeInBasketProductValue(product);
+      this.rewriteLocalUserData({
+        key: "inBasketProducts",
+        value: [...this.basketList],
+      });
+    },
+    goBack() {
+      history.back();
     },
   },
   computed: {
     ...mapState({
       url: (state) => state.serverUrl,
-      basketList: (state) => state.inBasketProducts,
-      userName: (state) => state.login,
+      basketList: (state) => state.user.userData.inBasketProducts,
+      singleProduct: (state) => state.product,
+      userName: (state) => state.user.userData.emailLogin,
+    }),
+    ...mapGetters({
+      empty: "user/empty",
     }),
   },
 };
@@ -158,15 +183,16 @@ export default {
     font-size: 32px;
     padding-bottom: 40px;
   }
-  &__back-ink {
+  &__back-link {
     text-transform: uppercase;
     font-size: 16px;
     color: #000;
   }
-  &__back-ink:hover {
+  &__back-link:hover {
     color: #126d73;
+    cursor: pointer;
   }
-  &__back-ink > svg {
+  &__back-link > svg {
     margin-right: 20px;
     transform: rotate(180deg);
     vertical-align: middle;

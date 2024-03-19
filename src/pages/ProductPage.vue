@@ -59,10 +59,7 @@
           <div class="add-to-cart flex">
             <label class="oxygen-regular add-to-cart__label">Количество</label>
             <div class="add-to-cart flex-start">
-              <button
-                @click="quantity > 1 ? quantity-- : false"
-                class="add-to-cart__minus"
-              >
+              <button @click="decreseQuantity" class="add-to-cart__minus">
                 −
               </button>
               <input
@@ -73,15 +70,12 @@
                 min="1"
                 max="100"
               />
-              <button
-                @click="quantity <= 100 ? quantity++ : false"
-                class="add-to-cart__plus"
-              >
+              <button @click="increseQuantity" class="add-to-cart__plus">
                 +
               </button>
             </div>
             <button class="oxygen-regular add-to-cart__submit" type="submit">
-              Купить
+              В корзину
             </button>
           </div>
         </div>
@@ -92,7 +86,7 @@
 
 <script>
 import SelectComp from "@/components/SelectComp.vue";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -117,18 +111,49 @@ export default {
       ],
     };
   },
+  updated() {
+    this.changeOpenProduct(this.product);
+  },
   methods: {
+    ...mapMutations({
+      changeSingleProduct: "changeSingleProduct",
+      changeOpenProduct: "user/changeOpenProduct",
+      rewriteLocalUserData: "user/rewriteLocalUserData",
+      changeInBasketProductValue: "user/changeInBasketProductValue",
+    }),
     openInNewWindow(url) {
       window.open(url);
     },
     selectSize(value) {
       this.size = value;
     },
+    decreseQuantity() {
+      this.quantity > 1 ? this.quantity-- : false;
+      // this.rewriteQuanity({
+      //     value: this.quantity,
+      //     id: this.product.id,
+      //   });
+    },
+    increseQuantity() {
+      this.quantity <= 100 ? this.quantity++ : false;
+      // this.rewriteQuanity({
+      //     value: this.quantity,
+      //     id: this.product.id,
+      //   });
+    },
+    rewriteQuanity(product) {
+      this.changeInBasketProductValue(product);
+      this.rewriteLocalUserData({
+        key: "inBasketProducts",
+        value: [...this.basketList],
+      });
+    },
   },
   computed: {
     ...mapState({
       url: (state) => state.serverUrl,
-      product: (state) => state.product,
+      product: (state) => state.user.userData.openProduct,
+      basketList: (state) => state.user.userData.inBasketProducts,
     }),
   },
 };

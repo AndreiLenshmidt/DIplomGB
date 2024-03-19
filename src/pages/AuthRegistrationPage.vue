@@ -198,8 +198,8 @@ export default {
   width: 100%;
   background-color: #f7f7f7;
   display: flex;
-  justify-content: start;
-  align-items: start;
+  justify-content: flex-start;
+  align-items: flex-start;
 
   &__form {
     background-color: #fff;
@@ -246,7 +246,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
 
   &__box {
     width: 31%;

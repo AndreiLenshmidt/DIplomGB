@@ -26,7 +26,7 @@
           </div>
           <ul class="flex header-top__list">
             <li class="header-top__icon">
-              <a class="" href="#">
+              <a href="https://github.com/AndreiLenshmidt">
                 <svg
                   class="header-top__icon"
                   xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@
               </a>
             </li>
             <li class="header-top__icon">
-              <a class="" href="#">
+              <a href="#">
                 <svg
                   class="header-top__icon"
                   xmlns="http://www.w3.org/2000/svg"
@@ -82,14 +82,14 @@
         <nav class="header-bottom__nav">
           <!-- <router-link to="/">Main</router-link> -->
           <router-link
-            v-for="(navItem, index) in navCategory"
+            v-for="(navItem, index) in navLinks"
             :key="index"
             :to="navItem.path"
             class="header-bottom__item"
             ><span class="header-bottom__span oxygen-regular">{{
               navItem.name
             }}</span>
-            <div class="link-menu">
+            <!-- <div class="link-menu">
               <ul class="link-menu__list">
                 <li
                   class="oxygen-regular link-menu__subkategory"
@@ -99,9 +99,35 @@
                   <a href="#">{{ subkategory }}</a>
                 </li>
               </ul>
-            </div>
+            </div> -->
           </router-link>
         </nav>
+        <router-link to="/products/избранное">
+          <svg
+            version="1.0"
+            id="Layer_1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 0 64 64"
+            enable-background="new 0 0 64 64"
+            class="header-bottom__svg-like"
+            xml:space="preserve"
+            height="24"
+            width="24"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M47.977,5.99c-4.416,0-8.414,1.792-11.308,4.686l-4.685,4.654l-4.686-4.654 C24.406,7.782,20.408,5.99,15.992,5.99C7.161,5.99,0,13.15,0,21.982c0,4.416,2.85,8.539,5.747,11.432l23.41,23.414 c1.562,1.562,4.092,1.562,5.653,0l23.349-23.352c2.896-2.893,5.81-7.078,5.81-11.494C63.969,13.15,56.808,5.99,47.977,5.99z"
+              ></path>
+            </g>
+          </svg>
+        </router-link>
         <svg
           @:click="openmenu"
           class="header-bottom__svg-search"
@@ -155,20 +181,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  props: {
-    navCategory: Array,
-  },
   data() {
     return {
       logo: require("@/assets/img/logo.svg"),
-      headerIcons: {
-        phoneIcon: require("@/assets/img/phone.svg"),
-        userIcon: require("@/assets/img/user.svg"),
-        gitIcon: require("@/assets/img/git.svg"),
-        vkIcon: require("@/assets/img/vk.svg"),
-      },
-      isVisiableHeaderTop: true,
       menushow: false,
       marginBottom: "",
       marginTop: "",
@@ -178,37 +196,9 @@ export default {
         "https://img.freepik.com/free-photo/cute-dog-in-snow-furry-and-small-looking-at-camera-generated-by-artificial-intellingence_25030-63068.jpg?w=740&t=st=1708964451~exp=1708965051~hmac=1e09ba3887192cbe2bdc06a4fa957ff005844f9a8eb1459b731d2b4837212818",
       ],
       maincounter: 0,
-      categoryblock: [
-        {
-          link: "https://img.freepik.com/free-photo/white-t-shirts-with-copy-space-gray-background_53876-104920.jpg?t=st=1709130745~exp=1709134345~hmac=fcc3fb2ab5bcc70e647c45304bf469d3c3437bdf4e650274938d11cf73aab4b7&w=740",
-          name: "category1",
-        },
-        {
-          link: "https://img.freepik.com/free-photo/creative-reels-composition_23-2149711507.jpg?t=st=1709130833~exp=1709134433~hmac=f9c9004270c162a8af3589cb6433a73e4c85dfd027187091cb9187d012ce85fc&w=740",
-          name: "category2",
-        },
-        {
-          link: "https://img.freepik.com/free-photo/female-legs-sneakers-with-flowers-yellow-background_185193-109402.jpg?t=st=1709130923~exp=1709134523~hmac=1637095a59f18dcf1d3366c26e69af24fffb8b702e68163cd74b36c5927272e0&w=740",
-          name: "category3",
-        },
-        {
-          link: "https://img.freepik.com/free-photo/delicious-food-arrangement-high-angle_23-2149235813.jpg?t=st=1709130959~exp=1709134559~hmac=95f9fd953897ae2b4b1722d27c565a0b48bd027e330290bec38aae4e675e6eef&w=740",
-          name: "category4",
-        },
-        {
-          link: "https://img.freepik.com/free-photo/natures-beauty-captured-colorful-flower-close-up-generative-ai_188544-8593.jpg?t=st=1709131013~exp=1709134613~hmac=ea5941f9f03ee64a1a124195050a0d48695e402ca870ce4cafdbb35bf7401a66&w=740",
-          name: "category5",
-        },
-        {
-          link: "https://img.freepik.com/free-photo/white-cloud-blue-sky_74190-2381.jpg?t=st=1709131043~exp=1709134643~hmac=1a11f8d63ede2a739e84ad45d14c52d8aea9d6ba2727acfd473fa7dd66f47898&w=740",
-          name: "category6",
-        },
-      ],
     };
   },
   mounted() {
-    // Cannot read properties of null (reading 'classList')
-    // TypeError: Cannot read properties of null (reading 'classList')
     window.addEventListener("scroll", this.scrollPage);
   },
   methods: {
@@ -227,6 +217,11 @@ export default {
       if (window.scrollY >= 56) this.marginTop = "margin-top";
       if (window.scrollY === 0) this.marginTop = "";
     },
+  },
+  computed: {
+    ...mapState({
+      navLinks: (state) => state.navLinks,
+    }),
   },
   destroyed() {
     window.removeEventListener("scroll", this.scrollPage);

@@ -1,88 +1,110 @@
 import { createStore } from "vuex";
+import { UserLocalStoreData } from "@/store/localStore";
 
 export default createStore({
   state: {
     // HeaderComp
-    categories: [
+    // categories: [
+    //   {
+    //     name: "Главная",
+    //     path: "/",
+    //     subkategory: ["Главная", "О магазине", "Доставка", "Соглашение"],
+    //   },
+    //   {
+    //     name: "Каталог",
+    //     path: "/products",
+    //     subkategory: [
+    //       "smartphones",
+    //       "laptops",
+    //       "mens-watches",
+    //       "womens-watches",
+    //       "fragrances",
+    //       "skincare",
+    //       "mens-shoes",
+    //       "mens-watches",
+    //       "tops",
+    //       "womens-dresses",
+    //       "womens-shoes",
+    //       "womens-jewellery",
+    //       "groceries",
+    //       "motorcycle",
+    //       "sunglasses",
+    //       "automotive",
+    //     ],
+    //   },
+    //   {
+    //     name: "Категории",
+    //     path: "/product",
+    //     subkategory: [
+    //       "Мужчинам",
+    //       "Женщинам",
+    //       "Техника",
+    //       "Для дома",
+    //       "Косметика",
+    //       "Другое",
+    //     ],
+    //   },
+    //   {
+    //     name: "Новинки",
+    //     path: "/basket",
+    //     // subkategory: [
+    //     //   "tops",
+    //     //   "womens-dresses",
+    //     //   "womens-shoes",
+    //     //   "womens-jewellery",
+    //     // ],
+    //   },
+    //   {
+    //     name: "Популярные",
+    //     path: "/authentification",
+    //     subkategory: ["home-decoration", "furniture", "lighting"],
+    //     imgsrc:
+    //       "https://img.freepik.com/free-photo/modern-apartment-with-comfortable-sofa-decor-generated-by-ai_188544-38495.jpg?t=st=1709897269~exp=1709900869~hmac=20dd4e26941443d8097ad1d72cfd317d816681becfe4b4c0976a2babb55343ad&w=740",
+    //   },
+    //   // {
+    //   //   name: "Лучшая цена",
+    //   //   link: "#",
+    //   //   subkategory: ["groceries", "motorcycle", "sunglasses", "automotive"],
+    //   //   imgsrc:
+    //   //     "https://img.freepik.com/free-photo/white-cloud-blue-sky_74190-2381.jpg?t=st=1709131043~exp=1709134643~hmac=1a11f8d63ede2a739e84ad45d14c52d8aea9d6ba2727acfd473fa7dd66f47898&w=740",
+    //   // },
+    // ],
+    navLinks: [
       {
         name: "Главная",
         path: "/",
-        subkategory: ["Главная", "О магазине", "Доставка", "Соглашение"],
       },
       {
         name: "Каталог",
-        path: "/products",
-        subkategory: [
-          "smartphones",
-          "laptops",
-          "mens-watches",
-          "womens-watches",
-          "fragrances",
-          "skincare",
-          "mens-shoes",
-          "mens-watches",
-          "tops",
-          "womens-dresses",
-          "womens-shoes",
-          "womens-jewellery",
-          "groceries",
-          "motorcycle",
-          "sunglasses",
-          "automotive",
-        ],
+        path: "/products/все товары",
       },
       {
-        name: "Категории",
-        path: "/product",
-        subkategory: [
-          "Мужчинам",
-          "Женщинам",
-          "Техника",
-          "Для дома",
-          "Косметика",
-          "Другое",
-        ],
+        name: "О нас",
+        path: "/about",
       },
       {
-        name: "Новинки",
-        path: "/basket",
-        // subkategory: [
-        //   "tops",
-        //   "womens-dresses",
-        //   "womens-shoes",
-        //   "womens-jewellery",
-        // ],
+        name: "Доставка",
+        path: "/delivery",
       },
       {
-        name: "Популярные",
-        path: "/authentification",
-        subkategory: ["home-decoration", "furniture", "lighting"],
-        imgsrc:
-          "https://img.freepik.com/free-photo/modern-apartment-with-comfortable-sofa-decor-generated-by-ai_188544-38495.jpg?t=st=1709897269~exp=1709900869~hmac=20dd4e26941443d8097ad1d72cfd317d816681becfe4b4c0976a2babb55343ad&w=740",
+        name: "Контакты",
+        path: "/contacts",
       },
-      // {
-      //   name: "Лучшая цена",
-      //   link: "#",
-      //   subkategory: ["groceries", "motorcycle", "sunglasses", "automotive"],
-      //   imgsrc:
-      //     "https://img.freepik.com/free-photo/white-cloud-blue-sky_74190-2381.jpg?t=st=1709131043~exp=1709134643~hmac=1a11f8d63ede2a739e84ad45d14c52d8aea9d6ba2727acfd473fa7dd66f47898&w=740",
-      // },
     ],
     // MainPage
-    login: "",
-    product: {
-      id: null,
-      title: "",
-      description: "",
-      price: null,
-      discountPercentage: null,
-      rating: null,
-      stock: null,
-      brand: "",
-      category: "",
-      thumbnail: "",
-      images: [],
-    },
+    // product: {
+    //   id: 0,
+    //   title: "gxth",
+    //   description: "sggrs",
+    //   price: 565,
+    //   discountPercentage: 12,
+    //   rating: 4.0,
+    //   stock: 25,
+    //   brand: "fzrgzg",
+    //   category: "aefaf",
+    //   thumbnail: "#",
+    //   images: ["#"],
+    // },
     mainphoto: [
       "https://img.freepik.com/free-photo/front-view-young-male-holding-red-sale-writing-yellow-ripped-background_140725-103864.jpg?t=st=1710234986~exp=1710238586~hmac=25c49da58229bda80d4508850d17843b36d31f276da87d5870ecf5cc1d568c60&w=740",
       "https://img.freepik.com/free-photo/high-angle-black-friday-arrangement-black-background_23-2148665578.jpg?t=st=1710235045~exp=1710238645~hmac=51d9179b221877e6171764f7b1b7bbd21cd77c6487fea45f6a760567f85a74a8&w=740",
@@ -170,26 +192,33 @@ export default createStore({
     inBasketProducts: [],
     inLikedProducts: [],
   },
-  getters: {
-    // doubleLikes(state) {
-    //   return state.likes * 2;
-    // },
-  },
+  // getters: {
+  //   // doubleLikes(state) {
+  //   //   return state.likes * 2;
+  //   // },
+  // },
+  getters: {},
   mutations: {
+    // changeUserData(state, user) {
+    //   state.userData = user;
+    // },
     addCardsInArticles(state, cards) {
       state.articles.push(...cards);
+    },
+    addCardInArticles(state, card) {
+      state.articles.push(card);
     },
     delCardsInArticles(state) {
       state.articles.splice(0, state.articles.length);
     },
-    addCardsInNewProducts(state, cards) {
-      state.newProducts.push(...cards);
+    addCardsInNewProducts(state, card) {
+      state.newProducts.push(card);
     },
     addCardsInMostRatedProducts(state, card) {
       state.mostRatedProducts.push(card);
     },
-    addCardsInRecomendProducts(state, cards) {
-      state.recomendProducts.push(cards);
+    addCardsInRecomendProducts(state, card) {
+      state.recomendProducts.push(card);
     },
     addProductInBasket(state, id) {
       state.inBasketProducts.push(id);
@@ -232,22 +261,9 @@ export default createStore({
         console.log(e.message);
       }
     },
-    async getNews({ state, commit }) {
-      try {
-        const response2 = await fetch(
-          `${state.serverUrl}/products?limit=${3}&skip=${96}`
-        );
-        const result = await response2.json();
-        commit("addCardsInNewProducts", result.products);
-        //   this.newProducts.push(...result.products);
-        //   console.log(this.newProducts);
-      } catch (e) {
-        console.log(e.message);
-      }
-    },
     async getSortedProducts(
       { state, commit },
-      { commitName, sortParametr, maxVisionCard }
+      { commitName, sortParametr, startIndex, endIndex }
     ) {
       try {
         const response = await fetch(
@@ -257,7 +273,7 @@ export default createStore({
         const sorted = result.products.sort(
           (a, b) => b[sortParametr] - a[sortParametr]
         );
-        for (let i = 0; i < maxVisionCard; i++) {
+        for (let i = startIndex; i < endIndex; i++) {
           try {
             const response = await fetch(
               `https://dummyjson.com/products/${sorted[i].id}`
@@ -277,7 +293,8 @@ export default createStore({
         const response = await fetch(`${state.serverUrl}/products/${id}`);
         const result = await response.json();
         // console.log(result);
-        commit("changeSingleProduct", result);
+        // commit("changeSingleProduct", result);
+        commit("user/changeOpenProduct", result);
         // this.articles.push(...result.products);
         // console.log(this.articles);
       } catch (e) {
@@ -300,5 +317,7 @@ export default createStore({
       }
     },
   },
-  modules: {},
+  modules: {
+    user: UserLocalStoreData,
+  },
 });
