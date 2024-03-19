@@ -6,6 +6,7 @@ import ProductPage from "@/pages/ProductPage.vue";
 import AboutUsPage from "@/pages/AboutUsPage.vue";
 import DeliveryPage from "@/pages/DeliveryPage.vue";
 import ContactsPage from "@/pages/ContactsPage.vue";
+import LikedPage from "@/pages/LikedPage.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -24,6 +25,10 @@ const routes = [
   {
     path: "/basket",
     component: BasketPage,
+  },
+  {
+    path: "/liked",
+    component: LikedPage,
   },
   {
     path: "/authentification",

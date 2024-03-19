@@ -75,7 +75,7 @@
         </div>
       </section>
       <!-- <GreenButton @click="getCards((skip += 18))">Show More</GreenButton> -->
-      <GreenButton @click="getNextCards">Show More </GreenButton>
+      <GreenButton @click="getNextCards">Загрузить...</GreenButton>
     </div>
   </div>
 </template>
@@ -105,8 +105,8 @@ export default {
       checkedNames: [],
     };
   },
-  mounted() {
-
+  created() {
+    if (this.category === 'избранное') this.getLikedProducts();
   },
   methods: {
     ...mapMutations({
@@ -116,6 +116,7 @@ export default {
       addCardInArticles: "addCardInArticles",
     }),
     ...mapActions({
+      getSingleProduct: "getSingleProduct",
       getCards: "getCards",
       getProductsForCategory: "getProductsForCategory",
       getSortedProducts: "getSortedProducts",
@@ -135,6 +136,12 @@ export default {
       this.delCardsInArticles();
       for (const filter of this.filters) {
         this.getProductsForCategory(filter);
+      }
+    },
+    getLikedProducts() {
+      this.delCardsInArticles();
+      for (const id of this.likedProducts) {
+        this.getSingleProduct({id: id, commitName: "addCardInArticles"});
       }
     },
     getNextCards() {

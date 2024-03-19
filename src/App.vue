@@ -112,16 +112,30 @@ export default {
     // };
     // localStorage.setItem("userData", JSON.stringify(userData1));
     this.readLocalUserData();
+    this.getLikedProducts();
   },
   methods: {
     ...mapMutations({
       changeUserData: "changeUserData",
       readLocalUserData: "user/readLocalUserData",
+      delCardsInLiked: "delCardsInLiked",
     }),
     ...mapActions({
       getNews: "getNews",
       getSortedProducts: "getSortedProducts",
       getCards: "getCards",
+      getSingleProduct: "getSingleProduct",
+    }),
+    getLikedProducts() {
+      this.delCardsInLiked();
+      for (const id of this.likedProducts) {
+        this.getSingleProduct({ id: id, commitName: "addCardInLiked" });
+      }
+    },
+  },
+  computed: {
+    ...mapState({
+      likedProducts: (state) => state.user.userData.likedProducts,
     }),
   },
 };

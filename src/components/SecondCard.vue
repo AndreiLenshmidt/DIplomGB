@@ -90,6 +90,7 @@ export default {
   props: {
     article: Object,
   },
+  emits: ["delCardInLiked"],
   components: { GreenButton },
   data() {
     return {
@@ -103,6 +104,8 @@ export default {
     ...mapMutations({
       changeUserData: "changeUserData",
       rewriteLocalUserData: "user/rewriteLocalUserData",
+      addCardInLiked: "addCardInLiked",
+      delCardInLiked: "delCardInLiked",
     }),
     ...mapActions({
       getSingleProduct: "getSingleProduct",
@@ -112,16 +115,20 @@ export default {
       this.inLiked === true
         ? (this.likeActive = "articles__like-active")
         : (this.likeActive = "");
-      if (this.inLiked)
+      if (this.inLiked) {
         this.rewriteLocalUserData({
           key: "likedProducts",
           value: [...this.inLikedList, id],
         });
-      else
+        this.addCardInLiked(this.article);
+      } else {
         this.rewriteLocalUserData({
           key: "likedProducts",
           value: this.inLikedList.filter((item) => item !== id),
         });
+        this.delCardInLiked(this.article);
+      }
+      // this.$emit("delCardInLiked");
     },
     basketToggle(id) {
       this.inBasket = !this.inBasket;
@@ -140,7 +147,7 @@ export default {
         });
     },
     linkedInSingleProduct(id) {
-      this.getSingleProduct(id);
+      this.getSingleProduct({ id: id, commitName: "user/changeOpenProduct" });
       this.$router.push(`/product/${id}`);
     },
   },

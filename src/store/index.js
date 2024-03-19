@@ -79,16 +79,16 @@ export default createStore({
         path: "/products/все товары",
       },
       {
-        name: "О нас",
-        path: "/about",
-      },
-      {
         name: "Доставка",
         path: "/delivery",
       },
       {
         name: "Контакты",
         path: "/contacts",
+      },
+      {
+        name: "О Магазине",
+        path: "/about",
       },
     ],
     // MainPage
@@ -188,9 +188,10 @@ export default createStore({
     filters: [],
     category: [],
     sorted: [],
+    liked: [],
     // SecondCard.vue
-    inBasketProducts: [],
-    inLikedProducts: [],
+    // inBasketProducts: [],
+    // inLikedProducts: [],
   },
   // getters: {
   //   // doubleLikes(state) {
@@ -220,24 +221,28 @@ export default createStore({
     addCardsInRecomendProducts(state, card) {
       state.recomendProducts.push(card);
     },
-    addProductInBasket(state, id) {
-      state.inBasketProducts.push(id);
+    addCardInLiked(state, card) {
+      state.liked.push(card);
     },
-    addProductInLiked(state, id) {
-      state.inLikedProducts.push(id);
+    delCardInLiked(state, card) {
+      const delIndex = state.liked.findIndex((item) => item.id === card.id);
+      state.liked.splice(delIndex, 1);
     },
-    delProductInBasket(state, id) {
-      const delIndex = state.inBasketProducts.indexOf(id);
-      //   console.log(delIndex);
-      state.inBasketProducts.splice(delIndex, 1);
-      //   console.log(state.inBasketProducts);
+    delCardsInLiked(state, card) {
+      state.liked = [];
     },
-    delProductInLiked(state, id) {
-      const delIndex = state.inLikedProducts.indexOf(id);
-      //   console.log(delIndex);
-      state.inLikedProducts.splice(delIndex, 1);
-      //   console.log(state.inLikedProducts);
-    },
+    // delProductInBasket(state, id) {
+    //   const delIndex = state.inBasketProducts.indexOf(id);
+    //   //   console.log(delIndex);
+    //   state.inBasketProducts.splice(delIndex, 1);
+    //   //   console.log(state.inBasketProducts);
+    // },
+    // delProductInLiked(state, id) {
+    //   const delIndex = state.inLikedProducts.indexOf(id);
+    //   //   console.log(delIndex);
+    //   state.inLikedProducts.splice(delIndex, 1);
+    //   //   console.log(state.inLikedProducts);
+    // },
     changeFilters(state, filters) {
       state.filters.splice(0, state.filters.length),
         state.filters.push(...filters);
@@ -288,13 +293,13 @@ export default createStore({
         console.log(e.message);
       }
     },
-    async getSingleProduct({ state, commit }, id) {
+    async getSingleProduct({ state, commit }, { id, commitName }) {
       try {
         const response = await fetch(`${state.serverUrl}/products/${id}`);
         const result = await response.json();
         // console.log(result);
         // commit("changeSingleProduct", result);
-        commit("user/changeOpenProduct", result);
+        commit(commitName, result);
         // this.articles.push(...result.products);
         // console.log(this.articles);
       } catch (e) {
