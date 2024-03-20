@@ -106,14 +106,11 @@ export default createStore({
     //   images: ["#"],
     // },
     mainphoto: [
-      "https://img.freepik.com/free-photo/front-view-young-male-holding-red-sale-writing-yellow-ripped-background_140725-103864.jpg?t=st=1710234986~exp=1710238586~hmac=25c49da58229bda80d4508850d17843b36d31f276da87d5870ecf5cc1d568c60&w=740",
-      "https://img.freepik.com/free-photo/high-angle-black-friday-arrangement-black-background_23-2148665578.jpg?t=st=1710235045~exp=1710238645~hmac=51d9179b221877e6171764f7b1b7bbd21cd77c6487fea45f6a760567f85a74a8&w=740",
-      "https://img.freepik.com/free-photo/front-view-delivery-man-with-package_23-2148684711.jpg?t=st=1710235165~exp=1710238765~hmac=75543bff77f2dc73500d7bcf1dab0d728f470243b330e834596c5148fb18d9bc&w=826",
-      "https://img.freepik.com/free-photo/cyber-monday-shopping-sales_23-2148688502.jpg?t=st=1710235527~exp=1710239127~hmac=c11acbc36ce4312d0072d09fd8d200c4ae5bab59ef50ea522c89572f1f1fd30f&w=740",
-      "https://img.freepik.com/free-photo/shopping-cart-with-objects-sale-sticker_23-2148285126.jpg?t=st=1710235565~exp=1710239165~hmac=695509029544af758bf8d811e48552fe459a2dd619d82b0e7a976b18fa82ab38&w=740",
-      "https://img.freepik.com/free-photo/flat-lay-black-friday-sales-composition-red-background_23-2148665540.jpg?t=st=1710235715~exp=1710239315~hmac=19c33b86bfba8348a201866c6e9f2fa696bedfbdad61ca176747f46bd6b8f8f4&w=740",
-      "https://img.freepik.com/free-photo/young-couple-posing-studio-autumn-jacket-isolated-blue-human-negative-emotions-concept-cold-weather-female-male-fashion-concepts_155003-31145.jpg?t=st=1710235852~exp=1710239452~hmac=5e6db56e0941cc48da7df4793cbf029b58240cb5c731cb5dae4cbe6e3fd81e16&w=740",
-      "https://img.freepik.com/free-photo/top-view-woman-sportswear-gym_23-2148430263.jpg?t=st=1710236019~exp=1710239619~hmac=2622067c22d3ba50c491a912c5f3370fe1e1e4ef89f06a62f8e99b7e53bb06b5&w=740",
+      require("@/assets/img/main1.jpg"),
+      require("@/assets/img/main2.jpg"),
+      require("@/assets/img/main3.jpg"),
+      require("@/assets/img/main4.jpg"),
+      require("@/assets/img/main5.jpg"),
     ],
     serverUrl: "https://dummyjson.com",
     newProducts: [],
@@ -179,8 +176,7 @@ export default createStore({
           { en: "sunglasses", ru: "солнцезащитные очки" },
           { en: "automotive", ru: "для авто" },
         ],
-        imgsrc:
-          "https://img.freepik.com/free-photo/white-cloud-blue-sky_74190-2381.jpg?t=st=1709131043~exp=1709134643~hmac=1a11f8d63ede2a739e84ad45d14c52d8aea9d6ba2727acfd473fa7dd66f47898&w=740",
+        imgsrc: require("@/assets/img/other.jpg"),
       },
     ],
     // AllProductPage
@@ -321,6 +317,21 @@ export default createStore({
         console.log(e.message);
       }
     },
+    async searchProduct({ state, commit }, searchParams) {
+      try {
+        const response = await fetch(`${state.serverUrl}/products/search?q=${searchParams}`);
+        const result = await response.json();
+        console.log(result);
+        // commit("changeSingleProduct", result);
+        // commit(commitName, result);
+        // this.articles.push(...result.products);
+        // console.log(this.articles);
+      } catch (e) {
+        console.log(e.message);
+      }
+},
+
+    // 'https://dummyjson.com/products/search?q=phone'
   },
   modules: {
     user: UserLocalStoreData,

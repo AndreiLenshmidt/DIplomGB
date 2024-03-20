@@ -3,9 +3,6 @@
     <div class="header-top-wrap" :class="marginTop">
       <div class="wrap">
         <div class="header-top flex">
-          <a class="header__logo-link" href="#">
-            <img class="header__logo" :src="logo" alt="logo" />
-          </a>
           <div class="flex">
             <a href="#">
               <svg
@@ -155,6 +152,18 @@
         </router-link>
       </div>
     </div>
+    <div class="wrap">
+      <router-link to="/">
+        <div class="header__logo-link">
+          <img
+            class="header__logo"
+            src="@/assets/img/logo.svg"
+            alt="logo"
+            :class="logoScaled"
+          />
+        </div>
+      </router-link>
+    </div>
   </div>
   <div class="header-menu-wrap" v-show="menushow">
     <div class="wrap header-menu__bottom-box flex-center">
@@ -162,6 +171,7 @@
         type="text"
         class="header-menu__input"
         placeholder="Найти товар"
+        v-model="searchProduct"
       /><button class="header-menu__btn">
         <svg
           class="header-menu__svg-btn"
@@ -180,27 +190,26 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data() {
     return {
-      logo: require("@/assets/img/logo.svg"),
       menushow: false,
       marginBottom: "",
       marginTop: "",
-      mainphoto: [
-        "https://img.freepik.com/free-photo/fluffy-kitten-sitting-in-grass-staring-at-sunset-playful-generated-by-artificial-intelligence_25030-67836.jpg?size=626&ext=jpg&ga=GA1.1.1751935624.1697546507&semt=ais",
-        "https://img.freepik.com/free-photo/cute-domestic-cat-staring-at-the-camera-generative-ai_188544-12496.jpg?size=626&ext=jpg&ga=GA1.1.1751935624.1697546507&semt=ais",
-        "https://img.freepik.com/free-photo/cute-dog-in-snow-furry-and-small-looking-at-camera-generated-by-artificial-intellingence_25030-63068.jpg?w=740&t=st=1708964451~exp=1708965051~hmac=1e09ba3887192cbe2bdc06a4fa957ff005844f9a8eb1459b731d2b4837212818",
-      ],
-      maincounter: 0,
+      logoScaled: "",
+      // searchProduct: "",
     };
   },
   mounted() {
     window.addEventListener("scroll", this.scrollPage);
+    // this.searchProduct("phone");
   },
   methods: {
+    ...mapActions({
+      searchProduct: "searchProduct",
+    }),
     openmenu() {
       this.menushow = !this.menushow;
       this.menushow
@@ -213,8 +222,14 @@ export default {
     scrollPage() {
       // if (window.scrollY >= 56) this.$refs.headerTop.style.marginTop = `-44px`
       // if (window.scrollY === 0) this.$refs.headerTop.style.marginTop = "0px"
-      if (window.scrollY >= 56) this.marginTop = "margin-top";
-      if (window.scrollY === 0) this.marginTop = "";
+      if (window.scrollY >= 56) {
+        this.marginTop = "margin-top";
+        this.logoScaled = "logo-scaled";
+      }
+      if (window.scrollY === 0) {
+        this.marginTop = "";
+        this.logoScaled = "";
+      }
     },
   },
   computed: {
@@ -229,6 +244,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.logo-scaled {
+  width: 72px;
+  height: 68px;
+  padding-bottom: 0px;
+}
 .margin-bottom {
   margin-bottom: -250px;
 }

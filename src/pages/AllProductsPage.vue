@@ -3,8 +3,7 @@
     <div class="wrap">
       <section class="articles">
         <h2 class="cabin-700 articles__title">{{ filter.pageTitle }}</h2>
-        <div v-if="category !== 'избранное'"
-        class="articles__filter">
+        <div v-if="category !== 'избранное'" class="articles__filter">
           <div class="catalog__fillter-box flex">
             <details class="catalog__fillters">
               <summary class="catalog__fillter-desc">
@@ -74,8 +73,11 @@
           <SecondCard v-for="card in articles" :key="card.id" :article="card" />
         </div>
       </section>
-      <!-- <GreenButton @click="getCards((skip += 18))">Show More</GreenButton> -->
-      <GreenButton @click="getNextCards">Загрузить...</GreenButton>
+      <div class="articles__greenbtn-box">
+        <div class="line"></div>
+        <GreenButton @click="getNextCards">Загрузить...</GreenButton>
+        <div class="line"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -106,7 +108,7 @@ export default {
     };
   },
   created() {
-    if (this.category === 'избранное') this.getLikedProducts();
+    if (this.category === "избранное") this.getLikedProducts();
   },
   methods: {
     ...mapMutations({
@@ -141,7 +143,7 @@ export default {
     getLikedProducts() {
       this.delCardsInArticles();
       for (const id of this.likedProducts) {
-        this.getSingleProduct({id: id, commitName: "addCardInArticles"});
+        this.getSingleProduct({ id: id, commitName: "addCardInArticles" });
       }
     },
     getNextCards() {
@@ -197,6 +199,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.line {
+  border: 1px dashed #12d0a7;
+  width: 25%;
+}
+.green-button {
+  padding: 23px 90px;
+  border-radius: 30%;
+  margin-right: 40px;
+  margin-left: 40px;
+}
 summary {
   display: block;
 }

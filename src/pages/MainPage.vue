@@ -1,7 +1,7 @@
 <template>
   <div class="main-wrap">
     <div class="wrap">
-      <section class="main">
+      <!-- <section class="main">
         <figure class="main__img-box">
           <img class="main__img" :src="mainphoto[maincounter]" alt="#" />
           <button
@@ -25,7 +25,8 @@
             Next
           </button>
         </figure>
-      </section>
+      </section> -->
+      <SwipperAutoplay />
     </div>
   </div>
   <div class="category-wrap" @click="closeMenu">
@@ -66,9 +67,13 @@
             :article="card"
           />
         </div>
-        <GreenButton @click="clickForSortedProducts(newProducts, 'Новинки')"
-          >Подробнее</GreenButton
-        >
+        <div class="articles__greenbtn-box">
+          <div class="line"></div>
+          <GreenButton @click="clickForSortedProducts(newProducts, 'Новинки')"
+            >Перейти в каталог</GreenButton
+          >
+          <div class="line"></div>
+        </div>
       </section>
     </div>
   </div>
@@ -84,10 +89,14 @@
           />
           <!-- <SecondCard :articles="mostRatedProducts" /> -->
         </div>
-        <GreenButton
-          @click="clickForSortedProducts(mostRatedProducts, 'Бестселлеры')"
-          >Подробнее</GreenButton
-        >
+        <div class="articles__greenbtn-box">
+          <div class="line"></div>
+          <GreenButton
+            @click="clickForSortedProducts(mostRatedProducts, 'Бестселлеры')"
+            >Перейти в каталог</GreenButton
+          >
+          <div class="line"></div>
+        </div>
       </section>
     </div>
   </div>
@@ -103,10 +112,14 @@
           />
           <!-- <SecondCard :articles="recomendProducts" /> -->
         </div>
-        <GreenButton
-          @click="clickForSortedProducts(recomendProducts, 'Рекомендуем')"
-          >Подробнее</GreenButton
-        >
+        <div class="articles__greenbtn-box">
+          <div class="line"></div>
+          <GreenButton
+            @click="clickForSortedProducts(recomendProducts, 'Рекомендуем')"
+            >Перейти в каталог
+          </GreenButton>
+          <div class="line"></div>
+        </div>
       </section>
     </div>
   </div>
@@ -115,6 +128,7 @@
 <script>
 import SecondCard from "@/components/SecondCard.vue";
 import GreenButton from "@/components/GreenButton.vue";
+import SwipperAutoplay from "@/components/SwipperAutoplay.vue";
 import { mapMutations, mapState, mapActions } from "vuex";
 
 // const getData = async (URL) => {
@@ -131,47 +145,7 @@ export default {
   components: {
     SecondCard,
     GreenButton,
-  },
-  data() {
-    return {
-      // mainphoto: this.$store.state.mainphoto,
-      // categoryGrid: this.$store.state.categoryGrid,
-      maincounter: 0,
-      // newProducts: this.$store.state.newProducts,
-      // mostRatedProducts: this.$store.state.mostRatedProducts,
-      // recomendProducts: this.$store.state.recomendProducts,
-      // serverUrl: "https://dummyjson.com/products",
-      // limit: 0,
-      // skip: 0,
-      // // categories: [],
-      // // articles: [],
-      // ratings: [],
-      // // newProducts: [],
-      // // mostRatedProducts: [],
-      // // recomendProducts: [],
-    };
-  },
-  created() {
-    // Перенес в app.created
-    // this.getNews();
-    // this.getSortedProducts({
-    //   commitName: "addCardsInMostRatedProducts",
-    //   sortParametr: "rating",
-    //   maxVisionCard: 3,
-    // });
-    // this.getSortedProducts({
-    //   commitName: "addCardsInRecomendProducts",
-    //   sortParametr: "discountPercentage",
-    //   maxVisionCard: 3,
-    // });
-    // this.getCards(this.skip);
-    // this.getCategories();
-    // this.getLimit();
-    // this.getNews(this.limit);
-    // this.getSortedProducts(this.mostRatedProducts, "rating", 3);
-    // this.getSortedProducts(this.recomendProducts, "discountPercentage", 3);
-    // Смена картинки раз в 3 сек
-    // this.changeMainImg();
+    SwipperAutoplay,
   },
   methods: {
     ...mapMutations({
@@ -179,8 +153,6 @@ export default {
       delCardsInArticles: "delCardsInArticles",
     }),
     ...mapActions({
-      // getNews: "getNews",
-      // getSortedProducts: "getSortedProducts",
       getProductsForCategory: "getProductsForCategory",
     }),
     clickForCategory(category) {
@@ -195,90 +167,6 @@ export default {
       this.addCardsInArticles(sortedProducts);
       this.$router.push(`/products/${title.toLowerCase()}`);
     },
-    // async getCards(skip) {
-    //   try {
-    //     const response = await fetch(
-    //       `https://dummyjson.com/products?limit=${9}&skip=${skip}`
-    //     );
-    //     const result = await response.json();
-    //     this.articles.push(...result.products);
-    //     // console.log(this.articles);
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   }
-    // },
-    // async getCategories() {
-    //   try {
-    //     const response = await fetch(
-    //       "https://dummyjson.com/products/categories"
-    //     );
-    //     const result = await response.json();
-    //     this.categories.push(...result);
-    //     console.log(this.categories);
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   }
-    // },
-    // async getLimit() {
-    //   try {
-    //     const response = await fetch(
-    //       `https://dummyjson.com/products?limit=${0}&select=id`
-    //     );
-    //     const result = await response.json();
-    //     this.limit = result.limit;
-    //     console.log(this.limit);
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   }
-    // },
-    // async getNews() {
-    //   try {
-    //     const response2 = await fetch(
-    //       `https://dummyjson.com/products?limit=${3}&skip=${96}`
-    //     );
-    //     const result = await response2.json();
-    //     this.newProducts.push(...result.products);
-    //     console.log(this.newProducts);
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   }
-    // },
-    // async getSortedProducts(dataArr, sortParametr, maxVisionCard) {
-    //   try {
-    //     const response = await fetch(
-    //       `https://dummyjson.com/products?limit=${0}&select=${sortParametr}`
-    //     );
-    //     const result = await response.json();
-    //     const sorted = result.products.sort(
-    //       (a, b) => b[sortParametr] - a[sortParametr]
-    //     );
-    //     for (let i = 0; i < maxVisionCard; i++) {
-    //       try {
-    //         const response = await fetch(
-    //           `https://dummyjson.com/products/${sorted[i].id}`
-    //         );
-    //         const result = await response.json();
-    //         dataArr.push(result);
-    //       } catch (e) {
-    //         console.log(e.message);
-    //       }
-    //     }
-    //     console.log(this.mostRatedProducts);
-    //     // this.ratings.push(...result.products);
-    //     // const sorted = result.sort((a,b)=>b.rating - a.rating);
-    //     console.log(sorted);
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   }
-    // },
-    // // смена картики раз в 3 сек
-    // changeMainImg() {
-    //   setInterval(() => {
-    //     this.maincounter < this.mainphoto.length - 1
-    //       ? this.maincounter++
-    //       : (this.maincounter = 0);
-    //   }, 3000);
-    // },
   },
   computed: {
     ...mapState({
@@ -293,32 +181,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @keyframes imagesFading {
-//   0% {
-//     opacity: 1;
-//   }
-//   17% {
-//     opacity: 1;
-//   }
-//   25% {
-//     opacity: 1;
-//   }
-//   92% {
-//     opacity: 0.5;
-//   }
-//   100% {
-//     opacity: 1;
-//   }
-// }
-// @keyframes imagesFading {
-//   0% {
-//     margin-left: 0;
-//   }
-//   100% {
-//     margin-left: 100%;
-//   }
-// }
-
+.line {
+  border: 1px dashed #12d0a7;
+  width: 25%;
+}
+.green-button {
+  padding: 23px 90px;
+  border-radius: 30%;
+  margin-right: 40px;
+  margin-left: 40px;
+}
 .main {
   &__img-box {
     width: 1200px;
