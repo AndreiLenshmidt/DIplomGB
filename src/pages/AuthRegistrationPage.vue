@@ -10,7 +10,10 @@
               <input
                 class="authentication__input"
                 type="email"
+                v-model="login"
+                required
                 placeholder="Email"
+                pattern="^(?!.*@.*@.*$)(?!.*@.*--.*\..*$)(?!.*@.*-\..*$)(?!.*@.*-$)((.*)?@.+(\..{1,11})?)$"
               />
             </label>
             <div class="flex">
@@ -18,11 +21,23 @@
               <a class="oxygen-regular txt link">Забыли пароль?</a>
             </div>
             <label class="authentication__label">
-              <input class="authentication__input" type="password" />
+              <input
+                class="authentication__input"
+                type="password"
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Должен содержать по меньшей мере одну цифру, одну большую и одну маленькую буквы латинского алфавита и быть в длину не менее 8 символов"
+                required
+              />
             </label>
             <div>
               <label class="authentication__label">
-                <input type="checkbox" name="remember" id="remember" checked />
+                <input
+                  type="checkbox"
+                  name="remember"
+                  id="remember"
+                  checked
+                  v-model="remember"
+                />
                 <span class="oxygen-regular">Запомнить меня?</span>
               </label>
             </div>
@@ -55,6 +70,8 @@
                   class="registration__input"
                   type="text"
                   placeholder="Фамилия"
+                  required
+                  pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                 />
               </label>
               <label class="registration__label">
@@ -62,12 +79,22 @@
                 <input
                   class="registration__input"
                   type="tel"
+                  value="+7"
                   placeholder="Телефон"
+                  pattern="^\+7[1-9]{10}$"
+                  required
                 />
               </label>
               <label class="registration__label">
                 <p class="oxygen-regular text">Пароль</p>
-                <input class="registration__input" type="password" />
+                <input
+                  class="registration__input"
+                  :type="showpass ? 'text' : 'password'"
+                  v-model="password"
+                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                  title="Должен содержать по меньшей мере одну цифру, одну большую и одну маленькую буквы латинского алфавита и быть в длину не менее 8 символов"
+                  required
+                />
               </label>
             </div>
             <div class="registration__box">
@@ -77,6 +104,8 @@
                   class="registration__input"
                   type="text"
                   placeholder="Имя"
+                  required
+                  pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                 />
               </label>
               <label class="registration__label">
@@ -85,11 +114,19 @@
                   class="registration__input"
                   type="email"
                   placeholder="Email"
+                  required
+                  pattern="^(?!.*@.*@.*$)(?!.*@.*--.*\..*$)(?!.*@.*-\..*$)(?!.*@.*-$)((.*)?@.+(\..{1,11})?)$"
                 />
               </label>
               <label class="registration__label">
                 <p class="oxygen-regular text">Подтвердите пароль</p>
-                <input class="registration__input" type="password" />
+                <input
+                  class="registration__input"
+                  :type="showpass ? 'text' : 'password'"
+                  title="Пароль не совпал"
+                  required
+                  :pattern="password"
+                />
               </label>
             </div>
             <div class="registration__box">
@@ -99,12 +136,29 @@
                   class="registration__input"
                   type="text"
                   placeholder="Отчество"
+                  pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                 />
               </label>
+              <label class="registration__label">
+                <p class="oxygen-regular text">Адрес</p>
+                <input
+                  class="registration__input"
+                  type="text"
+                  placeholder="Адрес"
+                />
+              </label>
+              <div class="registration__show-pass">
+                <input type="checkbox" id="show" v-model="showpass" />
+                <span class="oxygen-regular"
+                  >{{
+                    showpass ? "Скрыть пароль" : "Показать поле ввода пароля"
+                  }}
+                </span>
+              </div>
             </div>
           </div>
           <div>
-            <input type="checkbox" name="agree" id="agree" checked />
+            <input type="checkbox" v-model="agree" />
             <span class="oxygen-regular"
               >Я даю своё согласие на обработку моих персональных данных и
               принимаю
@@ -139,7 +193,23 @@ export default {
   data() {
     return {
       authentication: true,
+      login: "",
+      password: "",
+      name: "",
+      surname: "",
+      lastname: "",
+      phone: "",
+      adress: "",
+      remember: true,
+      agree: true,
+      showpass: false,
     };
+  },
+  methods: {
+    // validation() {
+    //   this.login;
+    //    this.password;
+    // },
   },
 };
 </script>
@@ -273,6 +343,9 @@ export default {
     width: 200px;
     padding-top: 32px;
     padding-bottom: 12px;
+  }
+  &__show-pass {
+    margin-top: 55px;
   }
 }
 </style>

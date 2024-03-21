@@ -171,9 +171,11 @@
         type="text"
         class="header-menu__input"
         placeholder="Найти товар"
-        v-model="searchProduct"
+        title="Введите только название продукта"
+        v-model="searchValue"
       /><button class="header-menu__btn">
         <svg
+          @click="search"
           class="header-menu__svg-btn"
           xmlns="http://www.w3.org/2000/svg"
           height="24"
@@ -199,12 +201,12 @@ export default {
       marginBottom: "",
       marginTop: "",
       logoScaled: "",
-      // searchProduct: "",
+      searchValue: "",
     };
   },
   mounted() {
     window.addEventListener("scroll", this.scrollPage);
-    // this.searchProduct("phone");
+    // this.searchProduct("phone X");
   },
   methods: {
     ...mapActions({
@@ -230,6 +232,12 @@ export default {
         this.marginTop = "";
         this.logoScaled = "";
       }
+    },
+    search() {
+      this.searchValue ? this.searchProduct(this.searchValue) : false;
+      this.$router.push(`/search/${this.searchValue}`);
+      this.searchValue = "";
+      this.openmenu();
     },
   },
   computed: {

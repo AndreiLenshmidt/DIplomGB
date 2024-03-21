@@ -196,15 +196,14 @@ export default {
     width: 352px;
     color: #000;
     box-sizing: border-box;
-    background-color: #fff;
-    border: 1px solid #9de7d7;
+    background-color: #ecffea;
     border-radius: 12px;
     // border-radius: 62px 15px 62px 0px;
     // box-shadow: 0px 0px 3px 0px #12d0a7;
     transition: all 0.5s;
   }
   &__card:hover {
-    background: rgb(236 255 234);
+    filter: contrast(0.85);
   }
   // &__card-grey:hover {
   //   background: rgb(199 199 199);

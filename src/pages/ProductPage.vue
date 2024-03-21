@@ -74,9 +74,15 @@
                 +
               </button>
             </div>
-            <button class="oxygen-regular add-to-cart__submit" type="submit">
-              В корзину
-            </button>
+            <div class="add-to-cart__width">
+              <button
+                @click="toggleInBasket"
+                class="oxygen-regular add-to-cart__submit"
+                type="submit"
+              >
+                {{ inBasket ? "Убрать" : "В корзину" }}
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -104,6 +110,7 @@ export default {
       ],
       size: "",
       quantity: 1,
+      inBasket: false,
       options: [
         { name: "s", value: "S" },
         { name: "m", value: "M" },
@@ -111,8 +118,12 @@ export default {
       ],
     };
   },
+  created() {
+    this.checkInBasket();
+  },
   updated() {
     this.changeOpenProduct(this.product);
+    this.checkInBasket();
   },
   methods: {
     ...mapMutations({
@@ -129,24 +140,36 @@ export default {
     },
     decreseQuantity() {
       this.quantity > 1 ? this.quantity-- : false;
-      // this.rewriteQuanity({
-      //     value: this.quantity,
-      //     id: this.product.id,
-      //   });
     },
     increseQuantity() {
       this.quantity <= 100 ? this.quantity++ : false;
-      // this.rewriteQuanity({
-      //     value: this.quantity,
-      //     id: this.product.id,
-      //   });
     },
-    rewriteQuanity(product) {
-      this.changeInBasketProductValue(product);
-      this.rewriteLocalUserData({
-        key: "inBasketProducts",
-        value: [...this.basketList],
-      });
+    checkInBasket() {
+      if (
+        this.basketList.filter((item) => item.id === this.product.id).length
+      ) {
+        this.inBasket = true;
+      } else {
+        this.inBasket = false;
+      }
+    },
+    toggleInBasket() {
+      if (!this.inBasket) {
+        this.rewriteLocalUserData({
+          key: "inBasketProducts",
+          value: [
+            ...this.basketList,
+            { id: this.product.id, value: this.quantity },
+          ],
+        });
+        this.inBasket = true;
+      } else {
+        this.rewriteLocalUserData({
+          key: "inBasketProducts",
+          value: this.basketList.filter((item) => item.id !== this.product.id),
+        });
+        this.inBasket = false;
+      }
     },
   },
   computed: {
@@ -318,6 +341,11 @@ export default {
   &__submit:active {
     background-image: linear-gradient(180deg, #128567, #0c6448);
     color: #fff;
+  }
+  &__width {
+    display: flex;
+    justify-content: flex-end;
+    width: 35%;
   }
 }
 </style>

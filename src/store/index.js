@@ -188,6 +188,8 @@ export default createStore({
     // SecondCard.vue
     // inBasketProducts: [],
     // inLikedProducts: [],
+    // SearchPage
+    searchResalt: [],
   },
   // getters: {
   //   // doubleLikes(state) {
@@ -224,9 +226,10 @@ export default createStore({
       const delIndex = state.liked.findIndex((item) => item.id === card.id);
       state.liked.splice(delIndex, 1);
     },
-    delCardsInLiked(state, card) {
+    delCardsInLiked(state) {
       state.liked = [];
     },
+
     // delProductInBasket(state, id) {
     //   const delIndex = state.inBasketProducts.indexOf(id);
     //   //   console.log(delIndex);
@@ -245,6 +248,10 @@ export default createStore({
     },
     changeSingleProduct(state, singleProduct) {
       state.product = singleProduct;
+    },
+    changeSearchResalt(state, products) {
+      state.searchResalt = [];
+      state.searchResalt.push(...products);
     },
   },
   actions: {
@@ -319,19 +326,16 @@ export default createStore({
     },
     async searchProduct({ state, commit }, searchParams) {
       try {
-        const response = await fetch(`${state.serverUrl}/products/search?q=${searchParams}`);
+        const response = await fetch(
+          `${state.serverUrl}/products/search?q=${searchParams}`
+        );
         const result = await response.json();
-        console.log(result);
-        // commit("changeSingleProduct", result);
-        // commit(commitName, result);
-        // this.articles.push(...result.products);
-        // console.log(this.articles);
+        // console.log(result);
+        commit("changeSearchResalt", result.products);
       } catch (e) {
         console.log(e.message);
       }
-},
-
-    // 'https://dummyjson.com/products/search?q=phone'
+    },
   },
   modules: {
     user: UserLocalStoreData,

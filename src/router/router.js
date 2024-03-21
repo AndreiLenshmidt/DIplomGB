@@ -7,6 +7,7 @@ import AboutUsPage from "@/pages/AboutUsPage.vue";
 import DeliveryPage from "@/pages/DeliveryPage.vue";
 import ContactsPage from "@/pages/ContactsPage.vue";
 import LikedPage from "@/pages/LikedPage.vue";
+import SearchResaltPage from "@/pages/SearchResaltPage.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -45,6 +46,10 @@ const routes = [
   {
     path: "/contacts",
     component: ContactsPage,
+  },
+  {
+    path: "/search/:result?",
+    component: SearchResaltPage,
   },
 
   // {

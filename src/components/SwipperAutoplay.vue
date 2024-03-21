@@ -9,7 +9,7 @@
     :pagination="{
       clickable: true,
     }"
-    :navigation="true"
+    :navigation="false"
     :modules="modules"
     class="mySwiper"
   >
@@ -74,4 +74,8 @@ export default {
   top: 0;
   left: 0;
 }
+
+// .swiper-button-prev, .swiper-button-next {
+//   display: none !important;
+// }
 </style>
