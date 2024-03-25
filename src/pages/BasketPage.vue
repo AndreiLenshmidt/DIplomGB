@@ -52,7 +52,7 @@
           Вернуться назад</a
         >
         <div v-if="userName" class="basket__pay">
-          <a href="#"><GreenButton>Оплатить</GreenButton></a>
+          <GreenButton @click="makeOrder">Заказать</GreenButton>
         </div>
         <div v-else class="basket__pay">
           <p class="oxygen-regular basket__pay-text">
@@ -98,6 +98,8 @@ export default {
     ...mapMutations({
       rewriteLocalUserData: "user/rewriteLocalUserData",
       changeInBasketProductValue: "user/changeInBasketProductValue",
+      clearOrders: "clearOrders",
+      addInOrders: "addInOrders",
     }),
     async getInBasketProduct(id, quantity) {
       try {
@@ -135,11 +137,51 @@ export default {
     goBack() {
       history.back();
     },
+    makeOrder() {
+      this.rewriteLocalUserData({
+        key: "currentOrders",
+        value: [
+          ...this.currentOrders,
+          {
+            id: this.currentOrders.length,
+            sum: this.totalPrice,
+            status: "Проверка данных",
+            products: [...this.basketList],
+          },
+        ],
+      });
+      this.rewriteLocalUserData({
+        key: "inBasketProducts",
+        value: [],
+      });
+      this.getUserOrders();
+    },
+    getUserOrders() {
+      this.clearOrders();
+      for (const order of this.currentOrders) {
+        this.getUserOrderProduct(order);
+      }
+    },
+    async getUserOrderProduct({ id, status, sum, products }) {
+      const tempProducts = [];
+      for (const item of products) {
+        try {
+          const response = await fetch(`${this.url}/products/${item.id}`);
+          const result = await response.json();
+          result.quantity = item.value;
+          tempProducts.push(result);
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
+      this.addInOrders({ id, status, sum, products: tempProducts });
+    },
   },
   computed: {
     ...mapState({
       url: (state) => state.serverUrl,
       basketList: (state) => state.user.userData.inBasketProducts,
+      currentOrders: (state) => state.user.userData.currentOrders,
       singleProduct: (state) => state.product,
       userName: (state) => state.user.userData.emailLogin,
     }),

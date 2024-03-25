@@ -4,12 +4,7 @@
       <section class="articles">
         <h2 class="cabin-700 articles__title">Избранное</h2>
         <div class="articles__box">
-          <SecondCard
-            v-for="card in liked"
-            :key="card.id"
-            :article="card"
-            @delCardInLiked="delCardInLiked(card.id)"
-          />
+          <SecondCard v-for="card in liked" :key="card.id" :article="card" />
         </div>
       </section>
       <div v-if="!liked.length" class="liked__empty">

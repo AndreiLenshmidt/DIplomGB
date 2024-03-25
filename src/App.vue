@@ -98,27 +98,19 @@ export default {
       endIndex: 18,
     });
     this.getCards({ limit: 18, skip: 0 });
-    // this.getProductsForCategory("laptops");
-    // const userData1 = {
-    //   name: "Andrei",
-    //   lastName: "Lenshidt",
-    //   surname: "",
-    //   emailLogin: "lenshmidt.andrei@gmail.com",
-    //   password: "12345",
-    //   phone: "8-999-6354759",
-    //   adress: "Krasnodar",
-    //   likedProducts: [1, 2, 3, 4],
-    //   inBasketProducts: [{ id: 1, value: 2 }, { id: 2, value: 4 }, { id: 3, value: 1 }, { id: 4, value: 7 }],
-    // };
-    // localStorage.setItem("userData", JSON.stringify(userData1));
     this.readLocalUserData();
     this.getLikedProducts();
+    this.getBasketProducts();
+    this.getUserOrders();
   },
   methods: {
     ...mapMutations({
       changeUserData: "changeUserData",
       readLocalUserData: "user/readLocalUserData",
       delCardsInLiked: "delCardsInLiked",
+      delCardsInBasket: "delCardsInBasket",
+      clearOrders: "clearOrders",
+      addInOrders: "addInOrders",
     }),
     ...mapActions({
       getNews: "getNews",
@@ -132,10 +124,39 @@ export default {
         this.getSingleProduct({ id: id, commitName: "addCardInLiked" });
       }
     },
+    getBasketProducts() {
+      this.delCardsInBasket();
+      for (const item of this.baskedProducts) {
+        this.getSingleProduct({ id: item.id, commitName: "addCardInBasket" });
+      }
+    },
+    getUserOrders() {
+      this.clearOrders();
+      for (const order of this.currentOrders) {
+        this.getUserOrderProduct(order);
+      }
+    },
+    async getUserOrderProduct({ id, status, sum, products }) {
+      const tempProducts = [];
+      for (const item of products) {
+        try {
+          const response = await fetch(`${this.url}/products/${item.id}`);
+          const result = await response.json();
+          result.quantity = item.value;
+          tempProducts.push(result);
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
+      this.addInOrders({ id, status, sum, products: tempProducts });
+    },
   },
   computed: {
     ...mapState({
       likedProducts: (state) => state.user.userData.likedProducts,
+      baskedProducts: (state) => state.user.userData.inBasketProducts,
+      url: (state) => state.serverUrl,
+      currentOrders: (state) => state.user.userData.currentOrders,
     }),
   },
 };

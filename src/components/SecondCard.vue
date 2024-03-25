@@ -106,6 +106,8 @@ export default {
       rewriteLocalUserData: "user/rewriteLocalUserData",
       addCardInLiked: "addCardInLiked",
       delCardInLiked: "delCardInLiked",
+      addCardInBasket: "addCardInBasket",
+      delCardInBasket: "delCardInBasket",
     }),
     ...mapActions({
       getSingleProduct: "getSingleProduct",
@@ -128,23 +130,25 @@ export default {
         });
         this.delCardInLiked(this.article);
       }
-      // this.$emit("delCardInLiked");
     },
     basketToggle(id) {
       this.inBasket = !this.inBasket;
       this.inBasket === true
         ? (this.basketActive = "articles__basket-active")
         : (this.basketActive = "");
-      if (this.inBasket)
+      if (this.inBasket) {
         this.rewriteLocalUserData({
           key: "inBasketProducts",
           value: [...this.inBasketList, { id: id, value: 1 }],
         });
-      else
+        this.addCardInBasket(this.article);
+      } else {
         this.rewriteLocalUserData({
           key: "inBasketProducts",
           value: this.inBasketList.filter((item) => item.id !== id),
         });
+        this.delCardInBasket(this.article);
+      }
     },
     linkedInSingleProduct(id) {
       this.getSingleProduct({ id: id, commitName: "user/changeOpenProduct" });

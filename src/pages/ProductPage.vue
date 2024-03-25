@@ -18,9 +18,9 @@
             <img
               @click="openInNewWindow(product.images[imgCurrent])"
               :src="product.images[imgCurrent]"
-              alt=""
+              alt="product.title"
               class="product__img"
-              :i="imgCurrent"
+              :imgCurrent="imgCurrent"
             />
           </figure>
         </div>

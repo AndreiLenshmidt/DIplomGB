@@ -55,9 +55,9 @@
           </ul>
           <router-link to="/authentification" class="flex">
             <p>
-              <a href="#" class="header-top__text oxygen-regular"
-                >личный кабинет</a
-              >
+              <a href="#" class="header-top__text oxygen-regular">{{
+                userAuth ? "Личный кабинет" : "Вход"
+              }}</a>
             </p>
             <svg
               class="header-top__icon header-top__user"
@@ -243,6 +243,7 @@ export default {
   computed: {
     ...mapState({
       navLinks: (state) => state.navLinks,
+      userAuth: (state) => state.user.userData.emailLogin,
     }),
   },
   destroyed() {

@@ -90,6 +90,10 @@ export default createStore({
         name: "О Магазине",
         path: "/about",
       },
+      {
+        name: "ЛК",
+        path: "/account",
+      },
     ],
     // MainPage
     // product: {
@@ -185,6 +189,8 @@ export default createStore({
     category: [],
     sorted: [],
     liked: [],
+    basket: [],
+    orders: [],
     // SecondCard.vue
     // inBasketProducts: [],
     // inLikedProducts: [],
@@ -201,6 +207,12 @@ export default createStore({
     // changeUserData(state, user) {
     //   state.userData = user;
     // },
+    addInOrders(state, order) {
+      state.orders.push(order);
+    },
+    clearOrders(state) {
+      state.orders = [];
+    },
     addCardsInArticles(state, cards) {
       state.articles.push(...cards);
     },
@@ -229,19 +241,20 @@ export default createStore({
     delCardsInLiked(state) {
       state.liked = [];
     },
+    addCardInBasket(state, card) {
+      state.basket.push(card);
+    },
+    delCardInBasket(state, card) {
+      const delIndex = state.basket.findIndex((item) => item.id === card.id);
+      state.basket.splice(delIndex, 1);
+    },
+    delCardsInBasket(state) {
+      state.basket = [];
+    },
+    addCardInOrders(state, card) {
+      state.basket.push(card);
+    },
 
-    // delProductInBasket(state, id) {
-    //   const delIndex = state.inBasketProducts.indexOf(id);
-    //   //   console.log(delIndex);
-    //   state.inBasketProducts.splice(delIndex, 1);
-    //   //   console.log(state.inBasketProducts);
-    // },
-    // delProductInLiked(state, id) {
-    //   const delIndex = state.inLikedProducts.indexOf(id);
-    //   //   console.log(delIndex);
-    //   state.inLikedProducts.splice(delIndex, 1);
-    //   //   console.log(state.inLikedProducts);
-    // },
     changeFilters(state, filters) {
       state.filters.splice(0, state.filters.length),
         state.filters.push(...filters);

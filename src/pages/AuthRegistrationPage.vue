@@ -4,7 +4,7 @@
       <div v-if="authentication" class="authentication-box">
         <h2 class="cabin-700 title">ВХОД</h2>
         <div class="authentication">
-          <form class="authentication__form">
+          <form @submit.prevent="signIn" class="authentication__form">
             <label class="authentication__label">
               <p class="oxygen-regular txt">Email</p>
               <input
@@ -24,6 +24,7 @@
               <input
                 class="authentication__input"
                 type="password"
+                v-model="password"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                 title="Должен содержать по меньшей мере одну цифру, одну большую и одну маленькую буквы латинского алфавита и быть в длину не менее 8 символов"
                 required
@@ -61,7 +62,7 @@
       </div>
       <div v-else class="registration-box">
         <h2 class="cabin-700 title">Регистрация</h2>
-        <form>
+        <form @submit="saveUserData">
           <div class="registration">
             <div class="registration__box">
               <label class="registration__label">
@@ -70,6 +71,7 @@
                   class="registration__input"
                   type="text"
                   placeholder="Фамилия"
+                  v-model="surname"
                   required
                   pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                 />
@@ -80,6 +82,7 @@
                   class="registration__input"
                   type="tel"
                   value="+7"
+                  v-model="phone"
                   placeholder="Телефон"
                   pattern="^\+7[1-9]{10}$"
                   required
@@ -104,6 +107,7 @@
                   class="registration__input"
                   type="text"
                   placeholder="Имя"
+                  v-model="name"
                   required
                   pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                 />
@@ -114,6 +118,7 @@
                   class="registration__input"
                   type="email"
                   placeholder="Email"
+                  v-model="login"
                   required
                   pattern="^(?!.*@.*@.*$)(?!.*@.*--.*\..*$)(?!.*@.*-\..*$)(?!.*@.*-$)((.*)?@.+(\..{1,11})?)$"
                 />
@@ -136,6 +141,7 @@
                   class="registration__input"
                   type="text"
                   placeholder="Отчество"
+                  v-model="lastname"
                   pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                 />
               </label>
@@ -144,6 +150,7 @@
                 <input
                   class="registration__input"
                   type="text"
+                  v-model="adress"
                   placeholder="Адрес"
                 />
               </label>
@@ -185,6 +192,7 @@
 
 <script>
 import GreenButton from "@/components/GreenButton.vue";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -198,18 +206,65 @@ export default {
       name: "",
       surname: "",
       lastname: "",
-      phone: "",
+      phone: "+7",
       adress: "",
       remember: true,
       agree: true,
       showpass: false,
     };
   },
+  created() {
+    if (this.userData.emailLogin) {
+      this.login = this.userData.emailLogin;
+      this.autoSignIn();
+    } else {
+      this.authentication = false;
+    }
+  },
   methods: {
-    // validation() {
-    //   this.login;
-    //    this.password;
-    // },
+    ...mapMutations({
+      rewriteLocalUserData: "user/rewriteLocalUserData",
+      rewriteLocalUserObject: "user/rewriteLocalUserObject",
+    }),
+    signIn() {
+      const user = this.getLoginPassword();
+      if (this.login === user.login && this.password === user.password) {
+        this.rewriteLocalUserData({ key: "remember", value: true });
+        this.$router.push("/account");
+      } else {
+        this.authentication = false;
+      }
+    },
+    // Имитирует логин и пароль который хранится на сервере
+    getLoginPassword() {
+      // Defalt password
+      return { login: this.userData.emailLogin, password: "Qwerty123" };
+    },
+    autoSignIn() {
+      this.password = "Qwerty123";
+      if (this.userData.remember) {
+        this.signIn();
+      }
+    },
+    saveUserData() {
+      const userDataChanged = {
+        emailLogin: this.login,
+        // password: this.password,
+        name: this.name,
+        surname: this.surname,
+        lastname: this.lastname,
+        phone: this.phone,
+        adress: this.adress,
+        remember: this.remember,
+        agree: this.agree,
+      };
+      this.rewriteLocalUserObject(userDataChanged);
+    },
+  },
+  computed: {
+    ...mapState({
+      userData: (state) => state.user.userData,
+    }),
   },
 };
 </script>

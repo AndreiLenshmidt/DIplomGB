@@ -5,10 +5,12 @@ export const UserLocalStoreData = {
       surname: "",
       lastName: "",
       emailLogin: "",
-      password: "",
       phone: "",
       adress: "",
+      remember: false,
+      agree: false,
       openProduct: {},
+      currentOrders: [],
       likedProducts: [],
       inBasketProducts: [],
     },
@@ -47,6 +49,14 @@ export const UserLocalStoreData = {
     rewriteLocalUserData(state, chahgedData) {
       const userData = JSON.parse(localStorage.getItem("userData"));
       userData[chahgedData.key] = chahgedData.value;
+      localStorage.setItem("userData", JSON.stringify(userData));
+      this.commit("user/changeUserData", userData);
+    },
+    rewriteLocalUserObject(state, chahgedData) {
+      const userData = JSON.parse(localStorage.getItem("userData"));
+      for (const key of Object.keys(chahgedData)) {
+        userData[key] = chahgedData[key];
+      }
       localStorage.setItem("userData", JSON.stringify(userData));
       this.commit("user/changeUserData", userData);
     },

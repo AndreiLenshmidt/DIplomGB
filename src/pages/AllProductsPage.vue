@@ -3,7 +3,7 @@
     <div class="wrap">
       <section class="articles">
         <h2 class="cabin-700 articles__title">{{ filter.pageTitle }}</h2>
-        <div v-if="category !== 'избранное'" class="articles__filter">
+        <div class="articles__filter">
           <div class="catalog__fillter-box flex">
             <details class="catalog__fillters">
               <summary class="catalog__fillter-desc">
