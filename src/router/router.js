@@ -51,21 +51,21 @@ const routes = [
   {
     path: "/account",
     component: AccountPage,
-    children: [
-      {
-        path: 'liked',
-        component: LikedPage,
-      },
-      {
-        path: 'basket',
-        component: BasketPage,
-      },
-      {
-        path: 'user',
-        component: AuthRegistrationPage,
-      },
+    // children: [
+    //   {
+    //     path: 'liked',
+    //     component: LikedPage,
+    //   },
+    //   {
+    //     path: 'basket',
+    //     component: BasketPage,
+    //   },
+    //   {
+    //     path: 'user',
+    //     component: AuthRegistrationPage,
+    //   },
 
-    ],
+    // ],
   },
   {
     path: "/search/:result?",

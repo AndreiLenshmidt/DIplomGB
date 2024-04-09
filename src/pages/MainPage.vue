@@ -1,35 +1,10 @@
 <template>
   <div class="main-wrap">
     <div class="wrap">
-      <!-- <section class="main">
-        <figure class="main__img-box">
-          <img class="main__img" :src="mainphoto[maincounter]" alt="#" />
-          <button
-            class="main__btn main__btn-prev"
-            @click="
-              maincounter > 0
-                ? maincounter--
-                : (maincounter = mainphoto.length - 1)
-            "
-          >
-            Prev
-          </button>
-          <button
-            class="main__btn main__btn-next"
-            @click="
-              maincounter < mainphoto.length - 1
-                ? maincounter++
-                : (maincounter = 0)
-            "
-          >
-            Next
-          </button>
-        </figure>
-      </section> -->
       <SwipperAutoplay />
     </div>
   </div>
-  <div class="category-wrap" @click="closeMenu">
+  <div class="category-wrap">
     <div class="wrap">
       <section class="category">
         <a
@@ -48,15 +23,6 @@
     </div>
   </div>
   <div class="articles-wrap">
-    <!-- <div class="wrap">
-      <section class="articles">
-        <h2 class="cabin-700 articles__title">Все товары</h2>
-        <div class="articles__box">
-          <SecondCard :articles="articles" />
-        </div>
-      </section>
-      <button @click="getCards((skip += 9))">Show More</button>
-    </div> -->
     <div class="wrap">
       <section class="articles">
         <h2 class="cabin-700 articles__title">Новинки</h2>
@@ -131,15 +97,6 @@ import GreenButton from "@/components/GreenButton.vue";
 import SwipperAutoplay from "@/components/SwipperAutoplay.vue";
 import { mapMutations, mapState, mapActions } from "vuex";
 
-// const getData = async (URL) => {
-//   const response = await fetch(URL);
-//   const data = await response.json();
-//   console.log(data);
-//   return data;
-// };
-
-// getData("https://dummyjson.com/products?limit=10&skip=10");
-
 export default {
   name: "MainPage",
   components: {
@@ -170,7 +127,6 @@ export default {
   },
   computed: {
     ...mapState({
-      mainphoto: (state) => state.mainphoto,
       categoryGrid: (state) => state.categoryGrid,
       newProducts: (state) => state.newProducts,
       mostRatedProducts: (state) => state.mostRatedProducts,

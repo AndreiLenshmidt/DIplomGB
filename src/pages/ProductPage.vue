@@ -121,16 +121,12 @@ export default {
   created() {
     this.checkInBasket();
   },
-  updated() {
-    this.changeOpenProduct(this.product);
+  mounted() {
     this.checkInBasket();
   },
   methods: {
     ...mapMutations({
-      changeSingleProduct: "changeSingleProduct",
-      changeOpenProduct: "user/changeOpenProduct",
       rewriteLocalUserData: "user/rewriteLocalUserData",
-      changeInBasketProductValue: "user/changeInBasketProductValue",
     }),
     openInNewWindow(url) {
       window.open(url);
@@ -174,7 +170,6 @@ export default {
   },
   computed: {
     ...mapState({
-      url: (state) => state.serverUrl,
       product: (state) => state.user.userData.openProduct,
       basketList: (state) => state.user.userData.inBasketProducts,
     }),

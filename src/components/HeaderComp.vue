@@ -218,9 +218,6 @@ export default {
         ? (this.marginBottom = "margin-bottom")
         : (this.marginBottom = "");
     },
-    closemenu() {
-      this.menushow = false;
-    },
     scrollPage() {
       // if (window.scrollY >= 56) this.$refs.headerTop.style.marginTop = `-44px`
       // if (window.scrollY === 0) this.$refs.headerTop.style.marginTop = "0px"
@@ -234,8 +231,10 @@ export default {
       }
     },
     search() {
-      this.searchValue ? this.searchProduct(this.searchValue) : false;
-      this.$router.push(`/search/${this.searchValue}`);
+      if (this.searchValue) {
+        this.searchProduct(this.searchValue);
+        this.$router.push(`/search/${this.searchValue}`);
+      }
       this.searchValue = "";
       this.openmenu();
     },

@@ -95,7 +95,6 @@ export default {
   },
   data() {
     return {
-      category: this.$route.params.category,
       limit: 18,
       skip: 0,
       startIndex: 0,
@@ -108,31 +107,28 @@ export default {
     };
   },
   created() {
-    if (this.category === "избранное") this.getLikedProducts();
+    if (this.$route.params.category === "все товары") this.clearFilters();
   },
   methods: {
     ...mapMutations({
-      addCardsInArticles: "addCardsInArticles",
+      // addCardsInArticles: "addCardsInArticles",
       changeFilters: "changeFilters",
       delCardsInArticles: "delCardsInArticles",
-      addCardInArticles: "addCardInArticles",
+      // addCardInArticles: "addCardInArticles",
     }),
     ...mapActions({
-      getSingleProduct: "getSingleProduct",
       getCards: "getCards",
       getProductsForCategory: "getProductsForCategory",
       getSortedProducts: "getSortedProducts",
     }),
-    addFilters(checkedNames) {
-      this.changeFilters(checkedNames);
-      this.filtered();
-      this.$router.push(`/products/товары по категориям`);
-    },
     clearFilters() {
       this.checkedNames.splice(0, this.checkedNames.length);
       this.delCardsInArticles();
       this.getCards({ limit: 18, skip: 0 });
-      this.$router.push(`/products/все товары`);
+    },
+    addFilters(checkedNames) {
+      this.changeFilters(checkedNames);
+      this.filtered();
     },
     filtered() {
       this.delCardsInArticles();
@@ -140,18 +136,10 @@ export default {
         this.getProductsForCategory(filter);
       }
     },
-    getLikedProducts() {
-      this.delCardsInArticles();
-      for (const id of this.likedProducts) {
-        this.getSingleProduct({ id: id, commitName: "addCardInArticles" });
-      }
-    },
     getNextCards() {
       const condition = ["новинки", "бестселлеры", "рекомендуем"].indexOf(
         this.$route.params.category
       );
-      // console.log(this.$route.params.category);
-      // console.log(condition);
       if (this.$route.params.category === "все товары") {
         this.getCards({ limit: this.limit, skip: (this.skip += 18) });
       } else if (condition >= 0) {
@@ -163,36 +151,12 @@ export default {
         });
       }
     },
-    // async getInLikedProduct(id) {
-    //   try {
-    //     const response = await fetch(`${this.url}/products/${id}`);
-    //     const result = await response.json();
-    //     result.quantity = quantity;
-    //     // console.log(result);
-    //     this.products.push(result);
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   }
-    // },
-    // async getCards(skip) {
-    //   try {
-    //     const response = await fetch(
-    //       `https://dummyjson.com/products?limit=${this.limit}&skip=${this.skip}`
-    //     );
-    //     const result = await response.json();
-    //     this.articles.push(...result.products);
-    //     // console.log(this.articles);
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   }
-    // },
   },
   computed: {
     ...mapState({
       articles: (state) => state.articles,
       categories: (state) => state.categoryGrid,
       filters: (state) => state.filters,
-      likedProducts: (state) => state.user.userData.likedProducts,
     }),
   },
 };

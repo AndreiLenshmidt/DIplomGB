@@ -1,6 +1,7 @@
 <template>
   <div class="basket-wrap">
     <div class="wrap">
+      <h2 class="cabin-700 basket__title">Корзина</h2>
       <div v-if="empty" class="basket__empty">
         <p class="oxygen-regular basket__empty-txt">Ваша корзина пуста</p>
         <p @click="$router.push(`/`)" class="oxygen-regular basket__empty-txt">
@@ -8,17 +9,8 @@
         </p>
       </div>
       <div class="basket" v-else>
-        <h2 class="cabin-700 basket__title">Корзина</h2>
         <div class="basket__product-box">
           <div class="basket__product-wrap">
-            <!-- <CartProduct
-              v-for="(product, index) in basketList"
-              :key="product.id"
-              :productID="product.id"
-              :productQuantity="product.value",
-              @sentTotal="calcTotal"
-              @deleteProduct="deleteProductFromCart(index, product.id)"
-            /> -->
             <CartProduct
               v-for="(product, index) in products"
               :key="product.id"
@@ -101,20 +93,19 @@ export default {
       clearOrders: "clearOrders",
       addInOrders: "addInOrders",
     }),
+    changeProducts() {
+      for (const item of this.basketList) {
+        this.getInBasketProduct(item.id, item.value);
+      }
+    },
     async getInBasketProduct(id, quantity) {
       try {
         const response = await fetch(`${this.url}/products/${id}`);
         const result = await response.json();
         result.quantity = quantity;
-        // console.log(result);
         this.products.push(result);
       } catch (e) {
         console.log(e.message);
-      }
-    },
-    changeProducts() {
-      for (const item of this.basketList) {
-        this.getInBasketProduct(item.id, item.value);
       }
     },
     deleteProductFromCart(indexd, id) {
@@ -182,7 +173,6 @@ export default {
       url: (state) => state.serverUrl,
       basketList: (state) => state.user.userData.inBasketProducts,
       currentOrders: (state) => state.user.userData.currentOrders,
-      singleProduct: (state) => state.product,
       userName: (state) => state.user.userData.emailLogin,
     }),
     ...mapGetters({

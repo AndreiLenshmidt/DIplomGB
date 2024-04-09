@@ -1,10 +1,5 @@
 <template>
   <HeaderComp />
-  <!-- <MainPage :categoryGrid="categories" /> -->
-  <!-- <AllProductsPage /> -->
-  <!-- <ProductPage :product="products[0]" /> -->
-  <!-- <BasketPage :products="products" :userName="login" /> -->
-  <!-- <AuthRegistrationPage/> -->
   <router-view v-slot="{ Component, route }">
     <component :is="Component" :key="route.path" />
   </router-view>
@@ -31,52 +26,6 @@ export default {
     ProductPage,
     BasketPage,
     AuthRegistrationPage,
-  },
-  data() {
-    return {
-      login: "",
-      navLinks: [
-        {
-          name: "Главная",
-          path: "/",
-          // subkategory: ["Главная", "О магазине", "Доставка", "Соглашение"],
-        },
-        {
-          name: "Каталог",
-          path: "/products/все товары",
-          // subkategory: [
-          //   "smartphones",
-          //   "laptops",
-          //   "mens-watches",
-          //   "womens-watches",
-          //   "fragrances",
-          //   "skincare",
-          //   "mens-shoes",
-          //   "mens-watches",
-          //   "tops",
-          //   "womens-dresses",
-          //   "womens-shoes",
-          //   "womens-jewellery",
-          //   "groceries",
-          //   "motorcycle",
-          //   "sunglasses",
-          //   "automotive",
-          // ],
-        },
-        {
-          name: "О нас",
-          path: "/",
-        },
-        {
-          name: "Доставка",
-          path: "/",
-        },
-        {
-          name: "Контакты",
-          path: "/",
-        },
-      ],
-    };
   },
   created() {
     this.getSortedProducts({
@@ -113,7 +62,6 @@ export default {
       addInOrders: "addInOrders",
     }),
     ...mapActions({
-      getNews: "getNews",
       getSortedProducts: "getSortedProducts",
       getCards: "getCards",
       getSingleProduct: "getSingleProduct",

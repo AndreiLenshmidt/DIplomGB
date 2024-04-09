@@ -3,7 +3,7 @@ export const UserLocalStoreData = {
     userData: {
       name: "",
       surname: "",
-      lastName: "",
+      lastname: "",
       emailLogin: "",
       phone: "",
       adress: "",

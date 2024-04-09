@@ -95,9 +95,6 @@ export default {
     this.$emit("sentTotal", this.total);
   },
   methods: {
-    ...mapActions({
-      getSingleProduct: "getSingleProduct",
-    }),
     deleteProduct(id) {
       this.$emit("deleteProduct", id);
       this.$emit("sentTotal", -this.total);

@@ -102,15 +102,12 @@ export default {
   },
   methods: {
     ...mapMutations({
-      changeUserData: "changeUserData",
       rewriteLocalUserData: "user/rewriteLocalUserData",
       addCardInLiked: "addCardInLiked",
       delCardInLiked: "delCardInLiked",
       addCardInBasket: "addCardInBasket",
       delCardInBasket: "delCardInBasket",
-    }),
-    ...mapActions({
-      getSingleProduct: "getSingleProduct",
+      changeOpenProduct: "user/changeOpenProduct",
     }),
     likeToggle(id) {
       this.inLiked = !this.inLiked;
@@ -151,7 +148,7 @@ export default {
       }
     },
     linkedInSingleProduct(id) {
-      this.getSingleProduct({ id: id, commitName: "user/changeOpenProduct" });
+      this.changeOpenProduct(this.article);
       this.$router.push(`/product/${id}`);
     },
   },
