@@ -163,15 +163,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.line {
-  border: 1px dashed #12d0a7;
-  width: 25%;
-}
 .green-button {
   padding: 23px 90px;
   border-radius: 30%;
   margin-right: 40px;
   margin-left: 40px;
+
+  @media (width < 1024px) {
+    padding: 14px 46px;
+  }
 }
 summary {
   display: block;
@@ -194,6 +194,11 @@ summary::-webkit-details-marker {
   &__fillters-btn {
     border-radius: 0%;
     padding: 22px 50px;
+
+    @media (width < 1024px) {
+      margin-right: 0px;
+      margin-left: 0px;
+    }
   }
 
   &__fillters-btn:nth-child(2) {
@@ -235,10 +240,15 @@ summary::-webkit-details-marker {
   left: 0;
   top: 2.2rem;
   z-index: 5;
+
+  @media (width < 1024px) {
+    width: 36.5%;
+    left: 50px;
+  }
 }
 .catalog__fillters:nth-child(2) {
   position: absolute;
-  left: 34.333333%;
+  left: 46.333333%;
   top: 28%;
 }
 .catalog__fillters[open] {
@@ -252,6 +262,9 @@ summary::-webkit-details-marker {
   backdrop-filter: blur(5px);
   box-sizing: border-box;
   box-shadow: 6px 4px 35px rgba(0, 0, 0, 0.21);
+  @media (width < 1024px) {
+    width: 36.5%;
+  }
 }
 .catalog__fillter-desc {
   font-size: 14px;

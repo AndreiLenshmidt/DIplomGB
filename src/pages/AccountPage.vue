@@ -59,7 +59,7 @@
             </div>
           </div>
           <div class="wrapped" v-else-if="activeItem === 1">
-            <h2 class="cabin-500 articles__title">
+            <h2 class="cabin-500 account__order-title">
               Изменение данных пользователя
             </h2>
             <form @submit="saveUserData">
@@ -154,11 +154,7 @@
                   <div class="registration__show-pass">
                     <input type="checkbox" id="show" v-model="showpass" />
                     <span class="oxygen-regular"
-                      >{{
-                        showpass
-                          ? "Скрыть пароль"
-                          : "Показать поле ввода пароля"
-                      }}
+                      >{{ showpass ? "Скрыть пароль" : "Показать пароль" }}
                     </span>
                   </div>
                 </div>
@@ -328,6 +324,9 @@ export default {
     backdrop-filter: blur(5px);
     box-sizing: border-box;
     box-shadow: 6px 4px 35px rgba(0, 0, 0, 0.21);
+    @media (width < 1024px) {
+      width: 38%;
+    }
   }
 
   &__item {
@@ -353,6 +352,10 @@ export default {
   &__page {
     width: 61.5%;
     margin-top: 32px;
+
+    @media (width < 1024px) {
+      width: 57.5%;
+    }
   }
   &__order-box {
     display: flex;
@@ -445,6 +448,10 @@ export default {
   align-items: flex-start;
   flex-wrap: wrap;
 
+  @media (width < 1024px) {
+    padding-right: 24px;
+  }
+
   .title {
     padding-top: 48px;
     text-transform: uppercase;
@@ -514,6 +521,7 @@ export default {
   }
   &__show-pass {
     margin-top: 55px;
+    display: flex;
   }
 }
 </style>

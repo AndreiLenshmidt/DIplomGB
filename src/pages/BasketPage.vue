@@ -202,6 +202,9 @@ export default {
     padding-top: 48px;
     color: #000;
     text-transform: uppercase;
+    @media (width < 1024px) {
+      padding-left: 16px;
+    }
   }
   &__product-box {
     padding-top: 32px;
@@ -214,11 +217,17 @@ export default {
     text-align: end;
     font-size: 32px;
     padding-bottom: 40px;
+    @media (width < 1024px) {
+      padding-right: 16px;
+    }
   }
   &__back-link {
     text-transform: uppercase;
     font-size: 16px;
     color: #000;
+    @media (width < 1024px) {
+      padding-left: 16px;
+    }
   }
   &__back-link:hover {
     color: #126d73;

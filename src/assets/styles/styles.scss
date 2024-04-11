@@ -39,6 +39,13 @@ input[type="checkbox"]:checked {
 .wrap {
   width: 1200px;
   margin: 0 auto;
+
+  @media (width < 1200px) {
+    width: 1000px;
+  }
+  @media (width < 1024px) {
+    width: 768px;
+  }
 }
 .flex {
   display: flex;
@@ -67,6 +74,11 @@ input[type="checkbox"]:checked {
     padding-left: 40px;
     padding-right: 40px;
     transition: width, height 0.2s;
+
+    @media (width < 1024px) {
+      padding-left: 0px;
+      width: 130px;
+    }
   }
   &__logo-link {
     position: absolute;
@@ -90,6 +102,7 @@ input[type="checkbox"]:checked {
   &__phone,
   &__user {
     padding-left: 10px;
+    padding-right: 16px;
   }
 
   &__phone,
@@ -127,11 +140,19 @@ input[type="checkbox"]:checked {
     align-items: center;
     padding-right: 175px;
     box-sizing: border-box;
+
+    @media (width < 1024px) {
+      padding-right: 65px;
+    }
   }
   &__item {
     box-sizing: border-box;
     border-bottom: 5px solid transparent;
     padding-left: 60px;
+
+    @media (width < 1200px) {
+      padding-left: 25px;
+    }
   }
   &__item:hover .link-menu {
     display: block;
@@ -161,6 +182,10 @@ input[type="checkbox"]:checked {
     position: absolute;
     right: 120px;
     top: 20px;
+
+    @media (width < 1024px) {
+      right: 85px;
+    }
   }
   &__svg-search:hover,
   &__svg-basket:hover,
@@ -170,12 +195,12 @@ input[type="checkbox"]:checked {
   }
   &__svg-basket {
     fill: rgb(120, 120, 120);
-    padding: 24px 0px 24px 20px;
+    padding: 24px 16px 24px 20px;
   }
   &__svg-like {
     fill: rgb(120, 120, 120);
     position: absolute;
-    right: 33px;
+    right: 50px;
     top: 20px;
   }
 }
@@ -275,7 +300,7 @@ input[type="checkbox"]:checked {
   }
 }
 
-.articles { 
+.articles {
   padding-top: 48px;
   padding-bottom: 48px;
   &__box {
@@ -286,10 +311,21 @@ input[type="checkbox"]:checked {
     padding-bottom: 32px;
     flex-wrap: wrap;
     row-gap: 30px;
+
+    @media (width < 1200px) {
+      column-gap: 35px;
+    }
+    @media (width < 1024px) {
+      justify-content: center;
+    }
   }
   &__title {
     color: #000;
     text-transform: uppercase;
+
+    @media (width < 1024px) {
+      padding-left: 52px;
+    }
   }
   &__greenbtn-box {
     width: 100%;
@@ -307,8 +343,24 @@ input[type="checkbox"]:checked {
     padding-left: 20px;
   }
 }
+
+.line {
+  border: 1px dashed #12d0a7;
+  width: 25%;
+
+  @media (width < 1024px) {
+    width: 16%;
+  }
+}
+
 .footer {
   padding: 32px 0;
+
+  @media (width < 1200px) {
+    padding: 32px 32px;
+  }
+  @media (width < 1024px) {
+  }
   &-grey {
     padding-top: 54px;
     background: rgb(194, 194, 194);

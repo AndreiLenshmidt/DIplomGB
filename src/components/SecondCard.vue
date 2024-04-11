@@ -202,6 +202,13 @@ export default {
     // border-radius: 62px 15px 62px 0px;
     // box-shadow: 0px 0px 3px 0px #12d0a7;
     transition: all 0.5s;
+
+    @media (width < 1200px) {
+      width: 310px;
+    }
+    @media (width < 1024px) {
+      
+    }
   }
   &__card:hover {
     filter: contrast(0.85);
@@ -219,7 +226,7 @@ export default {
   }
 
   &__img-box {
-    width: 310px;
+    width: 100%;
     position: relative;
     overflow: hidden;
     padding-top: 75%;

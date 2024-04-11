@@ -255,6 +255,7 @@ export default {
 .logo-scaled {
   width: 72px;
   height: 68px;
+  padding-left: 40px;
   padding-bottom: 0px;
 }
 .margin-bottom {

@@ -137,15 +137,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.line {
-  border: 1px dashed #12d0a7;
-  width: 25%;
-}
+
 .green-button {
   padding: 23px 90px;
   border-radius: 30%;
   margin-right: 40px;
   margin-left: 40px;
+
+  @media (width < 1024px) {
+    padding: 14px 46px;
+  }
 }
 .main {
   &__img-box {
@@ -187,9 +188,17 @@ export default {
 .category {
   margin-top: 36px;
   display: grid;
-  grid-template: 300px 300px/1fr 1fr 1fr;
+  grid-template: 290px 290px/1fr 1fr 1fr;
   padding-bottom: 48px;
   gap: 5px;
+
+  @media (width < 1200px) {
+    grid-template: 240px 240px/1fr 1fr 1fr;
+  }
+  @media (width < 1024px) {
+    grid-template: 185px 185px/1fr 1fr 1fr;
+  }
+
   &-wrap {
     background-color: #ebebeb;
   }
@@ -253,5 +262,10 @@ export default {
 }
 .articles-wrap-mid {
   background-color: #ebebeb;
+}
+.articles__card:last-child {
+  @media (width < 1024px) {
+    display: none;
+  }
 }
 </style>
