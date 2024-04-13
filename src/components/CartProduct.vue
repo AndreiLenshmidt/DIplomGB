@@ -150,13 +150,25 @@ export default {
     align-items: center;
 
     @media (width < 1024px) {
-    padding-left: 16px;
-  }
+      padding-left: 16px;
+    }
+    @media (width < 768px) {
+     font-size: 10px;
+     align-items: flex-start;
+     position: relative;
+    }
+    @media (width < 540px) {
+      width: 290px;
+    }
+  
   }
   &__product-description {
     align-items: center;
     justify-content: flex-start;
     width: 40%;
+    @media (width < 768px) {
+      width: 50%;
+    }
   }
   &__img-box {
     width: 90px;
@@ -167,6 +179,9 @@ export default {
     margin-right: 20px;
     background: rgb(234, 234, 234);
     border: 1px solid #9de7d7;
+    @media (width < 768px) {
+      margin-right: 0;
+    }
   }
   &__img {
     position: absolute;
@@ -178,10 +193,21 @@ export default {
   }
   &__del-box {
     width: 100%;
+    @media (width < 768px) {
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 80px;
+      width: 50%;
+    }
   }
   &__product-headding {
     font-size: 24px;
     color: #12d0a7;
+    @media (width < 768px) {
+      font-size: 10px;
+      padding-left: 10px;
+    }
   }
   &__product-del:hover > svg {
     fill: #b32d38;
@@ -195,10 +221,16 @@ export default {
     align-self: center;
     padding-left: 20px;
     color: #126d73;
+    @media (width < 768px) {
+      display: none;
+    }
   }
   &__product-del-svg {
     padding-left: 35px;
     padding-right: 8px;
+    @media (width < 768px) {
+      padding-left: 8px;
+    }
   }
   &__product-multy {
     padding: 9px 8px;
@@ -208,6 +240,13 @@ export default {
     background-color: #fff;
     margin-right: 25px;
     cursor: pointer;
+    @media (width < 540px) {
+      margin-right: 0px;
+      position: absolute;
+      top: 51px;
+      right: 0;
+      z-index: 1;
+    }
   }
   &__product-multy-active {
     background-color: #12d0a7;
@@ -234,6 +273,16 @@ export default {
   &__price {
     font-size: 32px;
     width: 200px;
+    position: absolute;
+    bottom: 25px;
+    left: 220px;
+    @media (width < 768px) {
+      left: 300px;
+    }
+    @media (width < 540px){
+      width: 46%;
+      left: 170px;
+    }
   }
 }
 </style>

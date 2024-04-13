@@ -22,7 +22,7 @@ export default createStore({
         path: "/contacts",
       },
       {
-        name: "О Магазине",
+        name: "О&nbspМагазине",
         path: "/about",
       },
     ],

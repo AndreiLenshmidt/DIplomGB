@@ -9,6 +9,7 @@ import ContactsPage from "@/pages/ContactsPage.vue";
 import LikedPage from "@/pages/LikedPage.vue";
 import SearchResaltPage from "@/pages/SearchResaltPage.vue";
 import AccountPage from "@/pages/AccountPage.vue";
+import NotFoundComponent from "@/pages/NotFoundComponent.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -51,31 +52,16 @@ const routes = [
   {
     path: "/account",
     component: AccountPage,
-    // children: [
-    //   {
-    //     path: 'liked',
-    //     component: LikedPage,
-    //   },
-    //   {
-    //     path: 'basket',
-    //     component: BasketPage,
-    //   },
-    //   {
-    //     path: 'user',
-    //     component: AuthRegistrationPage,
-    //   },
-
-    // ],
   },
   {
     path: "/search/:result?",
     component: SearchResaltPage,
   },
 
-  // {
-  //   path: '/:pathMatch(.*)',
-  //   component: NotFoundComponent,
-  // }
+  {
+    path: '/:pathMatch(.*)',
+    component: NotFoundComponent,
+  }
 ];
 
 const router = createRouter({

@@ -58,18 +58,32 @@ export default {};
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  @media (width < 1024px) {
+    align-items: baseline;
+  }
+  @media (width < 768px) {
+    flex-direction: column;
+  }
 }
 .delivery {
   color: #000000;
   width: 48%;
   flex-direction: column;
   padding-left: 75px;
+  @media (width < 768px) {
+    width: 92%;
+    padding-left: 16px;
+  }
 
   &__bkg {
     width: 48%;
     padding-top: 102%;
     padding-left: 55%;
     background-image: url("https://img.freepik.com/free-photo/front-view-delivery-man-with-package_23-2148684711.jpg?t=st=1710235165~exp=1710238765~hmac=75543bff77f2dc73500d7bcf1dab0d728f470243b330e834596c5148fb18d9bc&w=826");
+    @media (width < 768px) {
+      width: 44.5%;
+    }
+
   }
   &__headding {
     color: #000000;

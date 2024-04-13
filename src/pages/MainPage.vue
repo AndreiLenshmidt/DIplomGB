@@ -147,6 +147,12 @@ export default {
   @media (width < 1024px) {
     padding: 14px 46px;
   }
+  @media (width < 540px) {
+    padding: 10px 16px;
+    font-size: 10px;
+    margin-left: 6px;
+    margin-right: 6px;
+  }
 }
 .main {
   &__img-box {
@@ -197,6 +203,12 @@ export default {
   }
   @media (width < 1024px) {
     grid-template: 185px 185px/1fr 1fr 1fr;
+  }
+  @media (width < 768px) {
+    grid-template: 180px 180px 180px/1fr 1fr;
+    }
+    @media (width < 540px) {
+      grid-template: 116px 116px 116px/1fr 1fr;
   }
 
   &-wrap {

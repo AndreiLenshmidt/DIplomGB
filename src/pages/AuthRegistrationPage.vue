@@ -280,6 +280,9 @@ export default {
   padding-top: 48px;
   text-transform: uppercase;
   padding-bottom: 24px;
+  @media (width < 768px) {
+    text-align: center;
+  }
 }
 .title2 {
   text-transform: uppercase;
@@ -325,6 +328,10 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+  @media (width < 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 
   &__form {
     background-color: #fff;
@@ -363,6 +370,9 @@ export default {
     padding: 16px;
     box-sizing: border-box;
     padding-left: 60px;
+    @media (width < 768px) {
+      padding-left: 16px;
+    }
   }
 }
 .registration {

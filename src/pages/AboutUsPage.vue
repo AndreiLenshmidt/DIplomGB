@@ -46,9 +46,19 @@ export default {};
 .about {
   color: #000;
   width: 50%;
+  @media (width < 1200px) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  @media (width < 540px) {
+    width: 100%;
+  }
 
   &__headding {
     padding-top: 46px;
+    @media (width < 768px) {
+    font-size: 36px;
+  }
   }
   &__text {
     padding-top: 32px;
@@ -56,6 +66,17 @@ export default {};
   &__img {
     padding-top: 46px;
     padding-right: 150px;
+    @media (width < 1200px) {
+      padding-right: 16px;
+    }
+    @media (width < 768px) {
+      width: 220px;
+      height: 350px;
+      padding-top: 116px;
+    }
+    @media (width < 540px) {
+      display: none;
+    }
   }
 }
 </style>

@@ -38,7 +38,7 @@
               </a>
             </li>
             <li class="header-top__icon">
-              <a href="#">
+              <a href="/;dogjpdt">
                 <svg
                   class="header-top__icon"
                   xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@
             </li>
           </ul>
           <router-link to="/authentification" class="flex">
-            <p>
+            <p class="header-top__auth-txt">
               <a href="#" class="header-top__text oxygen-regular">{{
                 userAuth ? "Личный кабинет" : "Вход"
               }}</a>
@@ -77,28 +77,31 @@
     <div class="wrap">
       <div class="header-bottom flex-end">
         <nav class="header-bottom__nav">
-          <!-- <router-link to="/">Main</router-link> -->
           <router-link
             v-for="(navItem, index) in navLinks"
             :key="index"
             :to="navItem.path"
             class="header-bottom__item"
-            ><span class="header-bottom__span oxygen-regular">{{
-              navItem.name
-            }}</span>
-            <!-- <div class="link-menu">
-              <ul class="link-menu__list">
-                <li
-                  class="oxygen-regular link-menu__subkategory"
-                  v-for="(subkategory, index) in navItem.subkategory"
-                  :key="index"
-                >
-                  <a href="#">{{ subkategory }}</a>
-                </li>
-              </ul>
-            </div> -->
+            ><span class="header-bottom__span oxygen-regular" v-html="navItem.name"></span>
           </router-link>
+          
         </nav>
+        <input id="check-menu" type="checkbox" />
+          <label for="check-menu" class="check-menu">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 448 512" fill="white" class="check-menu__svg">
+              <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
+            </svg>
+          </label>
+          <ul class="header__check-menu">
+              <h3 class="cabin-500">MENU</h3>
+              <router-link
+            v-for="(navItem, index) in navLinks"
+            :key="index"
+            :to="navItem.path"
+            class="check-menu__item"
+            ><span class="oxygen-regular" v-html="navItem.name"></span>
+          </router-link>
+          </ul>
         <svg
           @click="this.$router.push('/liked')"
           version="1.0"
@@ -271,4 +274,9 @@ export default {
 .flex {
   align-items: center;
 }
+.header-top__auth-txt {
+    @media (width < 768px) {
+      display: none;
+    }
+  }
 </style>

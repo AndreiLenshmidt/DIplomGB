@@ -327,6 +327,9 @@ export default {
     @media (width < 1024px) {
       width: 38%;
     }
+    @media (width < 540px) {
+      width: 30%;
+    }
   }
 
   &__item {
@@ -342,6 +345,10 @@ export default {
     border-left: 5px solid #12d0a7;
     border-bottom: 1px solid #12d0a7;
     cursor: pointer;
+    @media (width < 540px) {
+      font-size: 12px;
+      padding-left: 10px;
+    }
   }
 
   &__item-active {
@@ -356,12 +363,21 @@ export default {
     @media (width < 1024px) {
       width: 57.5%;
     }
+    @media (width < 540px) {
+      width: auto;
+      padding-left: 10px;
+    }
   }
   &__order-box {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
     row-gap: 24px;
+  }
+}
+.articles__card {
+  @media (width < 540px) {
+    width: 200px;
   }
 }
 .account {
@@ -378,6 +394,9 @@ export default {
     border-radius: 5px;
     box-sizing: border-box;
     margin-right: 20px;
+    @media (width < 540px) {
+      margin-right: 10px;
+    }
   }
   &__order-text-box {
     width: 100%;

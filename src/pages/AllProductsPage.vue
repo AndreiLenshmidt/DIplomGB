@@ -199,10 +199,23 @@ summary::-webkit-details-marker {
       margin-right: 0px;
       margin-left: 0px;
     }
+    @media (width < 768px) {
+      padding: 20px 24px;
+    }
+    @media (width < 540px) {
+      padding: 15px 37px;
+    }
   }
 
   &__fillters-btn:nth-child(2) {
     margin-left: 25px;
+
+    @media (width < 768px) {
+      margin-left: 10px;
+    }
+    @media (width < 540px) {
+      margin-left: 0;
+    }
   }
 
   &__category__checkbox {
@@ -245,11 +258,31 @@ summary::-webkit-details-marker {
     width: 36.5%;
     left: 50px;
   }
+  @media (width < 768px) {
+    width: 44.5%;
+    left: 0;
+  }
+
+  @media (width < 540px) {
+    width: 100%;
+    left: 0;
+    top: 4.2rem;
+  }
 }
 .catalog__fillters:nth-child(2) {
   position: absolute;
   left: 46.333333%;
   top: 28%;
+  @media (width < 768px) {
+    top: 26.5%;
+  }
+  @media (width < 540px) {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    left: 0;
+    top: 10%;
+  }
 }
 .catalog__fillters[open] {
   width: 32%;
@@ -264,6 +297,12 @@ summary::-webkit-details-marker {
   box-shadow: 6px 4px 35px rgba(0, 0, 0, 0.21);
   @media (width < 1024px) {
     width: 36.5%;
+  }
+  @media (width < 768px) {
+    width: 44.5%;
+  }
+  @media (width < 540px) {
+    width: 100%;
   }
 }
 .catalog__fillter-desc {

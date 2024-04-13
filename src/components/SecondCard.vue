@@ -184,6 +184,10 @@ export default {
     border: 1px solid #9de7d7;
     border-radius: 20px 8px 20px 0px;
     background: rgb(255, 255, 255);
+    @media (width < 768px) {
+      left: 12px;
+    bottom: 12px;
+    }
   }
   &__category-text {
     color: rgb(77, 80, 83);
@@ -191,6 +195,9 @@ export default {
     font-weight: 400;
     line-height: 150%;
     text-transform: capitalize;
+    @media (width < 768px) {
+      font-size: 10px;
+    }
   }
   &__card {
     padding: 21px;
@@ -206,8 +213,8 @@ export default {
     @media (width < 1200px) {
       width: 310px;
     }
-    @media (width < 1024px) {
-      
+    @media (width < 768px) {
+      width: 230px;
     }
   }
   &__card:hover {
@@ -248,10 +255,19 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding-top: 20px;
+    @media (width < 768px) {
+    padding-top: 10px;
+    }
   }
 
   &__btn {
     padding: 16px 46px;
+    @media (width < 768px) {
+      padding: 10px 10px;
+      font-size: 12px;
+      min-width: 100px;
+    }
+    
   }
   &__like {
     // padding-right: 20px;
@@ -272,6 +288,9 @@ export default {
     fill: #9de7d7;
     padding-left: 10px;
     padding-right: 10px;
+    @media (width < 768px) {
+      padding-right: 0px;
+    }
   }
   &__basket:hover {
     cursor: pointer;
@@ -291,11 +310,18 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: capitalize;
+    @media (width < 768px) {
+      font-size: 16px;
+      padding-top: 10px;
+    }
   }
   &__price-text {
     align-self: end;
     font-size: 24px;
     padding-bottom: 3px;
+    @media (width < 768px) {
+      font-size: 12px;
+    }
   }
   &__price-box {
     flex-direction: column;
@@ -308,6 +334,9 @@ export default {
   &__card-discount {
     font-size: 24px;
     color: #126d73;
+    @media (width < 768px) {
+      font-size: 20px;
+    }
   }
   &__card-brand {
     padding-bottom: 20px;

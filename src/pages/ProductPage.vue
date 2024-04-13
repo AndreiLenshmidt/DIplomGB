@@ -182,6 +182,12 @@ export default {
   color: black;
   padding-top: 96px;
   padding-bottom: 48px;
+
+  @media (width < 768px) {
+    flex-direction: column;
+  }
+  @media (width < 540px) {
+  }
   &__images {
     align-items: start;
   }
@@ -239,6 +245,11 @@ export default {
     );
     overflow: hidden;
     padding-top: 75%;
+    @media (width < 768px) {
+      width: 400px;
+    } 
+    @media (width < 540px) {
+    }
   }
   &__img {
     position: absolute;
@@ -253,6 +264,10 @@ export default {
 .product {
   &__info {
     width: 45%;
+    @media (width < 768px) {
+      width: auto;
+      padding-top: 36px;
+    }
   }
   &__title {
     // color: black;
@@ -285,6 +300,7 @@ export default {
 }
 .add-to-cart {
   display: flex;
+  position: relative;
   &__box {
     padding-right: 20px;
   }
@@ -341,6 +357,11 @@ export default {
     display: flex;
     justify-content: flex-end;
     width: 35%;
+    @media (width < 540px) {
+    position: absolute;
+    top: 70px;
+    left: 33%;
+  }
   }
 }
 </style>

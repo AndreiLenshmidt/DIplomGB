@@ -1,14 +1,14 @@
 <template>
   <div class="wrap contacts">
     <h2 class="cabin-700 contacts__title">Контакты</h2>
-    <div class="flex">
+    <div class="flex column">
       <div>
         <p class="oxygen-regular contacts__text">Вы можете найти нас здесь:</p>
         <div>
           <iframe
+            class="contacts__map"
             src="https://yandex.ru/map-widget/v1/?um=constructor%3Af86668ee3a3aef21a5624922ab9565474774ff70379931d001b389e157d1bb44&amp;source=constructor"
-            width="600"
-            height="350"
+            
             frameborder="1"
           ></iframe>
         </div>
@@ -37,6 +37,10 @@ export default {};
 <style lang="scss" scoped>
 .contacts {
   color: #000;
+  @media (width < 540px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   &__title {
     padding-top: 46px;
     padding-bottom: 30px;
@@ -44,11 +48,35 @@ export default {};
   &__text {
     padding-bottom: 24px;
   }
+  &__map {
+    width:600px;
+    height:350px;
+    @media (width < 1200px) {
+      width: 500px;
+    }
+    @media (width < 1024px) {
+      width: 400px;
+      padding-right: 20px;
+    }
+    @media (width < 768px) {
+      width: 330px;
+      height: 280px;
+    }
+    @media (width < 540px) {
+      width: 300px;
+      padding-right: 0;
+    }
 
+  }
   &__box {
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+}
+.column {
+  @media (width < 540px) {
+    flex-direction: column;
   }
 }
 </style>
