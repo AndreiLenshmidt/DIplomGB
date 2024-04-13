@@ -175,6 +175,7 @@
         class="header-menu__input"
         placeholder="Найти товар"
         title="Введите только название продукта"
+        id="search"
         v-model="searchValue"
       /><button class="header-menu__btn">
         <svg

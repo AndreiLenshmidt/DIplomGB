@@ -11,6 +11,7 @@
                 class="authentication__input"
                 type="email"
                 v-model="login"
+                name="useremail"
                 required
                 placeholder="Email"
                 pattern="^(?!.*@.*@.*$)(?!.*@.*--.*\..*$)(?!.*@.*-\..*$)(?!.*@.*-$)((.*)?@.+(\..{1,11})?)$"
@@ -25,6 +26,7 @@
                 class="authentication__input"
                 type="password"
                 v-model="password"
+                name="password"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                 title="Должен содержать по меньшей мере одну цифру, одну большую и одну маленькую буквы латинского алфавита и быть в длину не менее 8 символов"
                 required
@@ -72,6 +74,7 @@
                   type="text"
                   placeholder="Фамилия"
                   v-model="surname"
+                  name="usersurname"
                   required
                   pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                 />
@@ -83,6 +86,7 @@
                   type="tel"
                   value="+7"
                   v-model="phone"
+                  name="userphone"
                   placeholder="Телефон"
                   pattern="^\+7[1-9]{10}$"
                   required
@@ -94,6 +98,7 @@
                   class="registration__input"
                   :type="showpass ? 'text' : 'password'"
                   v-model="password"
+                  name="userpassword"
                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                   title="Должен содержать по меньшей мере одну цифру, одну большую и одну маленькую буквы латинского алфавита и быть в длину не менее 8 символов"
                   required
@@ -107,6 +112,8 @@
                   class="registration__input"
                   type="text"
                   placeholder="Имя"
+                  name="username"
+                  autocomplete="given-name"
                   v-model="name"
                   required
                   pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
@@ -119,6 +126,7 @@
                   type="email"
                   placeholder="Email"
                   v-model="login"
+                  name="useremail"
                   required
                   pattern="^(?!.*@.*@.*$)(?!.*@.*--.*\..*$)(?!.*@.*-\..*$)(?!.*@.*-$)((.*)?@.+(\..{1,11})?)$"
                 />
@@ -129,6 +137,7 @@
                   class="registration__input"
                   :type="showpass ? 'text' : 'password'"
                   title="Пароль не совпал"
+                  name="dpass"
                   required
                   :pattern="password"
                 />
@@ -142,6 +151,7 @@
                   type="text"
                   placeholder="Отчество"
                   v-model="lastname"
+                  name="userlastname"
                   pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                 />
               </label>
@@ -151,6 +161,7 @@
                   class="registration__input"
                   type="text"
                   v-model="adress"
+                  name="useradress"
                   placeholder="Адрес"
                 />
               </label>
@@ -165,7 +176,7 @@
             </div>
           </div>
           <div>
-            <input type="checkbox" v-model="agree" />
+            <input type="checkbox" v-model="agree" name="useragree"/>
             <span class="oxygen-regular"
               >Я даю своё согласие на обработку моих персональных данных и
               принимаю

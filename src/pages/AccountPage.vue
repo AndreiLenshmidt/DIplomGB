@@ -72,6 +72,7 @@
                       type="text"
                       placeholder="Фамилия"
                       v-model="surname"
+                      name="usersurname"
                       required
                       pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                     />
@@ -83,6 +84,9 @@
                       type="text"
                       placeholder="Имя"
                       v-model="name"
+                      id="username"
+                      name="username"
+                      autocomplete="given-name"
                       required
                       pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                     />
@@ -94,6 +98,7 @@
                       type="text"
                       placeholder="Отчество"
                       v-model="lastname"
+                      name="userlastname"
                       pattern="(^[A-Z]{1}[a-z]{1,14}$)|(^[А-Я]{1}[а-я]{1,14}$)"
                     />
                   </label>
@@ -103,6 +108,7 @@
                       class="registration__input"
                       :type="showpass ? 'text' : 'password'"
                       v-model="password"
+                      name="password"
                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                       title="Должен содержать по меньшей мере одну цифру, одну большую и одну маленькую буквы латинского алфавита и быть в длину не менее 8 символов"
                       required
@@ -114,6 +120,7 @@
                       class="registration__input"
                       :type="showpass ? 'text' : 'password'"
                       title="Пароль не совпал"
+                      name="dpass"
                       required
                       :pattern="password"
                     />
@@ -127,6 +134,7 @@
                       type="email"
                       placeholder="Email"
                       v-model="login"
+                      name="useremail"
                       required
                       pattern="^(?!.*@.*@.*$)(?!.*@.*--.*\..*$)(?!.*@.*-\..*$)(?!.*@.*-$)((.*)?@.+(\..{1,11})?)$"
                     />
@@ -137,6 +145,7 @@
                       class="registration__input"
                       type="tel"
                       v-model="phone"
+                      name="phonenumber"
                       placeholder="Телефон"
                       pattern="^\+7[1-9]{10}$"
                       required
@@ -149,6 +158,7 @@
                       type="text"
                       placeholder="Адрес"
                       v-model="adress"
+                      name="adress"
                     />
                   </label>
                   <div class="registration__show-pass">
